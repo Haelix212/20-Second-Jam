@@ -1,7 +1,10 @@
-using UnityEngine;
+using System;
+using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.InputSystem;
 using System.Diagnostics.Tracing;
+using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class DirectionalLock : MonoBehaviour
 {
@@ -17,6 +20,11 @@ public class DirectionalLock : MonoBehaviour
     public int puzzleLength;
     public int puzzleLengthIncrement;
     private int puzzleIndex = 0;
+
+    public RawImage[] puzzleImages;
+    public Texture[] puzzleMaterials;
+
+    private bool puzzleActive = false;
 
 
     private KeyCode[] possibleDirections = new KeyCode[] { KeyCode.UpArrow, KeyCode.DownArrow, KeyCode.LeftArrow, KeyCode.RightArrow };
@@ -35,33 +43,40 @@ public class DirectionalLock : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (UpAction.triggered)
+        if(puzzleActive)
         {
-            CheckPuzzle(KeyCode.UpArrow);
-        }
-        else if (DownAction.triggered)
-        {
-            CheckPuzzle(KeyCode.DownArrow);
-        }
-        else if (LeftAction.triggered)
-        {
-            CheckPuzzle(KeyCode.LeftArrow);
-        }
-        else if (RightAction.triggered)
-        {
-            CheckPuzzle(KeyCode.RightArrow);
+            if (UpAction.triggered)
+            {
+                CheckPuzzle(KeyCode.UpArrow);
+            }
+            else if (DownAction.triggered)
+            {
+                CheckPuzzle(KeyCode.DownArrow);
+            }
+            else if (LeftAction.triggered)
+            {
+                CheckPuzzle(KeyCode.LeftArrow);
+            }
+            else if (RightAction.triggered)
+            {
+                CheckPuzzle(KeyCode.RightArrow);
+            }
         }
     }
 
     private void GeneratePuzzle()
     {
+        ClearPuzzle();
         puzzleAnswer.Clear();
         for (int i = 0; i < puzzleLength; i++)
         {
-            KeyCode randomDirection = possibleDirections[Random.Range(0, possibleDirections.Length-1)];   
+            KeyCode randomDirection = possibleDirections[UnityEngine.Random.Range(0, possibleDirections.Length-1)];   
             puzzleAnswer.Add(randomDirection);
+            UpdatePuzzleVisuals(randomDirection,i);
         }
-        print("Code Sequence: " + string.Join(", ", puzzleAnswer));
+
+        puzzleActive = true;
+        //print("Code Sequence: " + string.Join(", ", puzzleAnswer));
     }
 
     //Checks player input
@@ -73,6 +88,7 @@ public class DirectionalLock : MonoBehaviour
             // if the input matches the current index of the answer, increment the index.
             if (input == puzzleAnswer[puzzleIndex])
             {
+                puzzleImages[puzzleIndex].color = Color.green;
                 puzzleIndex++;
 
                 if (puzzleIndex == puzzleAnswer.Count)
@@ -87,18 +103,27 @@ public class DirectionalLock : MonoBehaviour
                     {
                         puzzleIndex = 0;
                         puzzleLength += puzzleLengthIncrement;
-                        GeneratePuzzle();
+                        puzzleActive = false;
+                        StartCoroutine(WaitAndGeneratePuzzle());
                     }
                 }
-
             }
             //player puts wrong input, reset the index and generate a new puzzle.
             else
             {
+                puzzleImages[puzzleIndex].color = Color.red;
                 puzzleIndex = 0;
-                GeneratePuzzle();
+                puzzleActive = false;
+                StartCoroutine(WaitAndGeneratePuzzle());
             }
         }
+    }
+
+    //Waits for 1 seconds before generating a new puzzle. Provides a lockout period for player.
+    private IEnumerator WaitAndGeneratePuzzle()
+    {
+        yield return new WaitForSeconds(1);
+        GeneratePuzzle();
     }
 
     private bool CheckWinCondition()
@@ -110,6 +135,38 @@ public class DirectionalLock : MonoBehaviour
         else
         {
             return false;
+        }
+    }
+
+    private void UpdatePuzzleVisuals(KeyCode input, int i)
+    {
+        // Uses a keycode input to assign the which texture to assign. 1 = Up, 2 = Down, 3 = Left, 4 = Right.
+        // Also use the an integer argument for the index.
+        if (input == KeyCode.UpArrow)
+        {
+            puzzleImages[i].texture = puzzleMaterials[0];
+        }
+        else if (input == KeyCode.DownArrow)
+        {
+            puzzleImages[i].texture = puzzleMaterials[1];
+        }
+        else if (input == KeyCode.LeftArrow)
+        {
+            puzzleImages[i].texture = puzzleMaterials[2];
+        }
+        else if (input == KeyCode.RightArrow)
+        {
+            puzzleImages[i].texture = puzzleMaterials[3];
+        } 
+    }
+
+    //Clears the textures and colors from the puzzle.
+    private void ClearPuzzle()
+    {
+        for (int i = 0; i < puzzleImages.Length; i++)
+        {
+            puzzleImages[i].texture = null;
+            puzzleImages[i].color = Color.white;
         }
     }
 }
