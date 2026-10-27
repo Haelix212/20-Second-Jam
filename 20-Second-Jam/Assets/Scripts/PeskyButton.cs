@@ -77,7 +77,7 @@ public class PeskyButton : MonoBehaviour
     {
         timeInterval = Random.Range(timeIntervalMin, timeIntervalMax);
         timeInterval = Mathf.Round(timeInterval);
-        print("Time Interval: " + timeInterval);
+        //print("Time Interval: " + timeInterval);
     }
 
     //Starts timer and sets timerRemaing to the interval generated.
