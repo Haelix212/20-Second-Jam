@@ -17,6 +17,7 @@ public class DirectionalLock : MonoBehaviour
     private InputAction LeftAction;
     private InputAction RightAction;
 
+    [Header("Puzzle Variables")]
     public int puzzleLength;
     public int puzzleLengthIncrement;
     private int puzzleIndex = 0;
@@ -43,8 +44,10 @@ public class DirectionalLock : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Locks player from recording input while new puzzle is being generated.
         if(puzzleActive)
         {
+            //Checks for input on any arrow key then checks the input againt the current puzzle.
             if (UpAction.triggered)
             {
                 CheckPuzzle(KeyCode.UpArrow);
@@ -64,6 +67,7 @@ public class DirectionalLock : MonoBehaviour
         }
     }
 
+    //Uses the current puzzle length to generate a random sequence for our puzzle. 
     private void GeneratePuzzle()
     {
         ClearPuzzle();
@@ -141,7 +145,7 @@ public class DirectionalLock : MonoBehaviour
     private void UpdatePuzzleVisuals(KeyCode input, int i)
     {
         // Uses a keycode input to assign the which texture to assign. 1 = Up, 2 = Down, 3 = Left, 4 = Right.
-        // Also use the an integer argument for the index.
+        // Also use an integer argument for the index.
         if (input == KeyCode.UpArrow)
         {
             puzzleImages[i].texture = puzzleMaterials[0];
