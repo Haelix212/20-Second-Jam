@@ -1,19 +1,20 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    public enum GameState
-    {
-        MainMenu,
-        Playing,
-        Paused, // Idk if we even want this cause of the 20 second thing
-        GameOver
-    }
+    [Header("UI")]
+    [SerializeField] private TextMeshProUGUI timeText;
+    [SerializeField] private GameObject gameOverPanel;
+    private float timeRemaining = 20f;
+     private bool isGameActive = false;
+    public bool IsGameActive => isGameActive;
 
-    public GameState CurrentState { get; private set; }
+
 
     void Awake()
     {
@@ -28,24 +29,52 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    public void UpdateGameState(GameState newState)
-    {
-        //State = newState;
-
-        //switch (newState)
-        //{
-        //    case GameState.MainMenu();
-        //    break;
-        //}
-    }
 
     void Start()
     {
         
     }
-
-    void Update()
+    private void Update()
     {
+        if (!isGameActive) return;
         
+        timeRemaining -= Time.deltaTime;
+        UpdateUI();
+    }
+    public void StartGame()
+    {
+        // Load the game scene, rn is my test scene
+        if (SceneManager.GetActiveScene().name != "Movement")
+        {
+            SceneManager.LoadScene("Movement");
+        }
+        // Reset everything including my imaginary puzzle manager that will exist eventually
+        // PuzzleManager.Instance.ResetPuzzlesCompleted();
+        timeRemaining = 20f;
+        isGameActive = true;
+        
+        // Hide gameover panel
+        if (gameOverPanel != null)
+        {
+            gameOverPanel.SetActive(false);
+        }
+        UpdateUI();
+    }
+    public void GameOver()
+    {
+        isGameActive = false;
+        if (gameOverPanel != null)
+        {
+            gameOverPanel.SetActive(true);
+        }
+    }
+    private void UpdateUI()
+    {
+        if (timeText == null) return;
+        timeText.text = $"TIME TILL MELTDOWN:{timeRemaining:00}";
+    }
+    public void RestartGame()
+    {
+        StartGame();
     }
 }
