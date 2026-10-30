@@ -16,14 +16,15 @@
 /20-Second-Jam/[Bb]uilds/
 /20-Second-Jam/[Ll]ogs/
 /20-Second-Jam/[Uu]ser[Ss]ettings/
+
 *.log
 
 # By default unity supports Blender asset imports, *.blend1 blender files do not need to be commited to version control.
 *.blend1
 *.blend1.meta
 # Keeping blender source files local, .fbx exports will be managed by git
-*.blend
-*.blend.meta
+*[Bb]lenderFiles/
+/20-Second-Jam/[Aa]ssets/[Oo]bjects/[Bb]lenderFiles.meta
 
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
