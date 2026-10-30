@@ -599,6 +599,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1268397724 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6387342005237702809, guid: 40682c47475ab43f2ac6c21865b6fca0, type: 3}
+  m_PrefabInstance: {fileID: 160844676803376009}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1268397730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1268397724}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a13f49f630ba4c548f66eab87e845bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ExampleDragBehavior
 --- !u!1 &1446129853
 GameObject:
   m_ObjectHideFlags: 0
@@ -1128,7 +1145,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6387342005237702809, guid: 40682c47475ab43f2ac6c21865b6fca0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1268397730}
   m_SourcePrefab: {fileID: 100100000, guid: 40682c47475ab43f2ac6c21865b6fca0, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

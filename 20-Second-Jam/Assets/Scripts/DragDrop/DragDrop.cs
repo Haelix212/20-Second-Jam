@@ -6,27 +6,22 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
     private RectTransform rectTransform;
     private CanvasGroup canvasGroup;
     private Canvas canvas;
+    private IDragBehavior specialBehavior;
     private Vector2 originalPosition;
     private Vector2 lastPosition;
-    // private string itemType; // "Wire", "Battery"
-    // private string itemName;
-    // private string requiredItemType;
+   
     // return to last and return to original should never both be true, right now just don't click both plz
     [SerializeField] public bool ReturnToLastPositionOnFail;
     [SerializeField] public bool ReturnToOriginalPositionOnFail;
-    // [SerializeField] public bool AllowIncorrectTypeDrop;
-    // [SerializeField] public Item heldItem;
 
     private void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
         canvasGroup = GetComponent<CanvasGroup>();
         canvas = GetComponentInParent<Canvas>();
+        specialBehavior = GetComponent<IDragBehavior>();
         originalPosition = rectTransform.anchoredPosition;
         lastPosition = originalPosition;
-        // itemType = heldItem.itemType;
-        // itemName = heldItem.itemName;
-        // requiredItemType = "Any"; 
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -39,6 +34,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
         // Right now is making transparent, but for wires we want to make a wire
         canvasGroup.alpha = 0.6f;
         canvasGroup.blocksRaycasts = false;
+        specialBehavior?.OnStartDragAction();
 
     }
 
@@ -51,6 +47,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
     {
         canvasGroup.alpha = 1f;
         canvasGroup.blocksRaycasts = true;
+        specialBehavior?.OnEndDragAction();
 
         if (eventData.pointerEnter == null || eventData.pointerEnter.GetComponent<ItemSlot>() == null)
         {
@@ -75,6 +72,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
 
     public void OnDropFail()
     {
+        specialBehavior?.OnFailedDropAction();
         if (ReturnToOriginalPositionOnFail)
         {
             ResetPosition();
@@ -89,6 +87,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
     public void OnDropSuccess()
     {
         lastPosition = rectTransform.anchoredPosition;
+        specialBehavior?.OnSuccessDropAction();
         // Check if puzzle was completed should be put here
     }
 }
