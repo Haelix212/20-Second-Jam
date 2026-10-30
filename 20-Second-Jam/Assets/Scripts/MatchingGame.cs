@@ -26,6 +26,7 @@ public class MatchingGame : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        //Declares array lengths
         Slots = new GameObject[NumberOfPairs];
         Plugs = new GameObject[NumberOfPairs];
 
@@ -64,7 +65,16 @@ public class MatchingGame : MonoBehaviour
 
             rectTransform.anchoredPosition = spawnPosition + spawnOffset;
             spawnOffset += initialSpawnOffset;
+        }
+    }
 
+    private void AssignPairs()
+    {
+        List<int> Identifiers = new List<int>(NumberOfPairs);
+
+        for (int i = 0; i < NumberOfPairs; i++)
+        {
+            Identifiers[i] = i;
         }
     }
 }
