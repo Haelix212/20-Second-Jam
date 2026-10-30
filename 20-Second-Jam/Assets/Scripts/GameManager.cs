@@ -10,8 +10,14 @@ public class GameManager : MonoBehaviour
     [Header("UI")]
     [SerializeField] private TextMeshProUGUI timeText;
     [SerializeField] private GameObject gameOverPanel;
+    [SerializeField] private Canvas menuCanvas;
     private float timeRemaining = 20f;
      private bool isGameActive = false;
+
+    private Transform menuTransform;    // Keeping serialized fields to a minimum
+    private Transform settingsTransform;
+    private Transform creditsTransform;
+    private Transform activeMenu;       // Used to keep back button code simple
     public bool IsGameActive => isGameActive;
 
 
@@ -27,6 +33,10 @@ public class GameManager : MonoBehaviour
         Instance = this;
         
         DontDestroyOnLoad(gameObject);
+
+        menuTransform = menuCanvas.transform.Find("MenuParent");
+        settingsTransform = menuCanvas.transform.Find("SettingsParent");
+        creditsTransform = menuCanvas.transform.Find("CreditsParent");
     }
 
 
@@ -76,5 +86,27 @@ public class GameManager : MonoBehaviour
     public void RestartGame()
     {
         StartGame();
+    }
+
+    public void OpenSettings()
+    {
+        menuTransform.gameObject.SetActive(false);
+        settingsTransform.gameObject.SetActive(true);
+
+        activeMenu = settingsTransform; // Saving this for GoBack() to use
+    }
+
+    public void OpenCredits()
+    {
+        menuTransform.gameObject.SetActive(false);
+        creditsTransform.gameObject.SetActive(true);
+
+        activeMenu = creditsTransform; // Saving this for GoBack() to use
+    }
+    
+    public void GoBack()
+    {
+        activeMenu.gameObject.SetActive(false);
+        menuTransform.gameObject.SetActive(true);
     }
 }
