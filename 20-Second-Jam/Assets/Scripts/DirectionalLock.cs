@@ -5,6 +5,7 @@ using System.Diagnostics.Tracing;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using static System.Reflection.Metadata.BlobBuilder;
 
 public class DirectionalLock : MonoBehaviour
 {
@@ -22,11 +23,17 @@ public class DirectionalLock : MonoBehaviour
     public int puzzleLengthIncrement;
     private int puzzleIndex = 0;
 
-    public RawImage[] puzzleImages;
+
+    [Header("Puzzle UI")]
+    public GameObject directionalLockPrefab;
+    public Image ParentPanel;
+    public Vector3 spawnPosition;
+    public Vector3 spawnOffset;
     public Texture[] puzzleMaterials;
 
-    private bool puzzleActive = false;
+    private List<GameObject> puzzleImages = new List<GameObject>();
 
+    private bool puzzleActive = false;
 
     private KeyCode[] possibleDirections = new KeyCode[] { KeyCode.UpArrow, KeyCode.DownArrow, KeyCode.LeftArrow, KeyCode.RightArrow };
     private List<KeyCode> puzzleAnswer = new List<KeyCode>();
@@ -70,15 +77,13 @@ public class DirectionalLock : MonoBehaviour
     //Uses the current puzzle length to generate a random sequence for our puzzle. 
     private void GeneratePuzzle()
     {
-        ClearPuzzle();
-        puzzleAnswer.Clear();
+        ResetPuzzle();
         for (int i = 0; i < puzzleLength; i++)
         {
             KeyCode randomDirection = possibleDirections[UnityEngine.Random.Range(0, possibleDirections.Length-1)];   
             puzzleAnswer.Add(randomDirection);
-            UpdatePuzzleVisuals(randomDirection,i);
+            UpdatePuzzleVisuals(randomDirection, i);
         }
-
         puzzleActive = true;
         //print("Code Sequence: " + string.Join(", ", puzzleAnswer));
     }
@@ -92,7 +97,7 @@ public class DirectionalLock : MonoBehaviour
             // if the input matches the current index of the answer, increment the index.
             if (input == puzzleAnswer[puzzleIndex])
             {
-                puzzleImages[puzzleIndex].color = Color.green;
+                puzzleImages[puzzleIndex].GetComponent<RawImage>().color = Color.green;
                 puzzleIndex++;
 
                 if (puzzleIndex == puzzleAnswer.Count)
@@ -115,7 +120,7 @@ public class DirectionalLock : MonoBehaviour
             //player puts wrong input, reset the index and generate a new puzzle.
             else
             {
-                puzzleImages[puzzleIndex].color = Color.red;
+                puzzleImages[puzzleIndex].GetComponent<RawImage>().color = Color.red;
                 puzzleIndex = 0;
                 puzzleActive = false;
                 StartCoroutine(WaitAndGeneratePuzzle());
@@ -144,33 +149,40 @@ public class DirectionalLock : MonoBehaviour
 
     private void UpdatePuzzleVisuals(KeyCode input, int i)
     {
-        // Uses a keycode input to assign the which texture to assign. 1 = Up, 2 = Down, 3 = Left, 4 = Right.
-        // Also use an integer argument for the index.
-        if (input == KeyCode.UpArrow)
+        // Creates the prefab for the puzzle and sets its location
+        GameObject newImage = Instantiate(directionalLockPrefab, ParentPanel.transform);
+        puzzleImages.Add(newImage);
+
+        RectTransform rectTransform = puzzleImages[i].GetComponent<RectTransform>();
+
+        rectTransform.anchoredPosition = spawnPosition + spawnOffset * i;
+
+        //Using key input to determine which image should be applied
+        switch (input)
         {
-            puzzleImages[i].texture = puzzleMaterials[0];
+            case KeyCode.UpArrow:
+                puzzleImages[i].GetComponent<RawImage>().texture = puzzleMaterials[0];
+                break;
+            case KeyCode.DownArrow:
+                puzzleImages[i].GetComponent<RawImage>().texture = puzzleMaterials[1];
+                break;
+            case KeyCode.LeftArrow:
+                puzzleImages[i].GetComponent<RawImage>().texture = puzzleMaterials[2];
+                break;
+            case KeyCode.RightArrow:
+                puzzleImages[i].GetComponent<RawImage>().texture = puzzleMaterials[3];
+                break;
         }
-        else if (input == KeyCode.DownArrow)
-        {
-            puzzleImages[i].texture = puzzleMaterials[1];
-        }
-        else if (input == KeyCode.LeftArrow)
-        {
-            puzzleImages[i].texture = puzzleMaterials[2];
-        }
-        else if (input == KeyCode.RightArrow)
-        {
-            puzzleImages[i].texture = puzzleMaterials[3];
-        } 
     }
 
-    //Clears the textures and colors from the puzzle.
-    private void ClearPuzzle()
+    //Destroys the previous puzzle prefabs and clears the lists of all of their contents.
+    private void ResetPuzzle()
     {
-        for (int i = 0; i < puzzleImages.Length; i++)
+        foreach (GameObject image in puzzleImages)
         {
-            puzzleImages[i].texture = null;
-            puzzleImages[i].color = Color.white;
+            Destroy(image);
         }
+        puzzleImages.Clear();
+        puzzleAnswer.Clear();
     }
 }
