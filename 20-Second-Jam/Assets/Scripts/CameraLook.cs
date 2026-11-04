@@ -11,6 +11,7 @@ public class CameraLook : MonoBehaviour
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
     public void UnlockCursor()
     {
@@ -41,6 +42,7 @@ public class CameraLook : MonoBehaviour
         cameraVectorX -= mouseY;
 
         cameraVectorX = Mathf.Clamp(cameraVectorX, -90f, 90f);
+        cameraVectorY = Mathf.Clamp(cameraVectorY, -90f, 90f);
 
         transform.localRotation = Quaternion.Euler(cameraVectorX, cameraVectorY, 0f);
     }

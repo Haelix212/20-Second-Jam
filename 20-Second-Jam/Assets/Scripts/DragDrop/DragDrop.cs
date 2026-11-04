@@ -29,10 +29,15 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
     public void OnPointerDown(PointerEventData eventData)
     {
         // May not need
+        Debug.Log(this.name);
+        //if (eventData == null) Debug.Log("null eventData");
+        Debug.Log("Clicking on " + eventData.selectedObject.name); //we're getting null eventData for some reason
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        Debug.Log("Dragging " + eventData.selectedObject.name);
+
         // Right now is making transparent, but for wires we want to make a wire
         canvasGroup.alpha = 0.6f;
         canvasGroup.blocksRaycasts = false;
@@ -42,6 +47,8 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
 
     public void OnDrag(PointerEventData eventData)
     {
+        Debug.Log("dragging " + eventData.selectedObject.name);
+
         rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
     }
 
