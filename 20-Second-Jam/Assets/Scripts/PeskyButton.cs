@@ -17,14 +17,19 @@ public class PeskyButton : MonoBehaviour
     [Header("Button Variables")]
     public int peskyButtonWinCondition;
     private int buttonClickCount = 0;
-    public Button thePeskyButton;
-    public TextMeshProUGUI thePeskyButtonText;
 
+    public TextMeshProUGUI textComponent;
+    private Button buttonComponent;
+
+    private void Awake()
+    {
+        buttonComponent = this.GetComponent<Button>();
+    }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         // Disables button on intialization. Sets the time interval and begins the timer.
-        thePeskyButton.enabled = false;
+        buttonComponent.enabled = false;
         SetColor();
         SetTimeInterval();
         StartTimer();
@@ -39,14 +44,14 @@ public class PeskyButton : MonoBehaviour
             timeRemaining -= Time.deltaTime;
 
             // Currently use being used for debugging.
-            thePeskyButtonText.text = "Time Remaining: " + Mathf.Round(timeRemaining).ToString();   
+            textComponent.text = "Time Remaining: " + Mathf.Round(timeRemaining).ToString();   
             //
             if (timeRemaining <= 0)
             {
-                thePeskyButton.enabled = true;
+                buttonComponent.enabled = true;
                 SetColor();
                 timerStarted = false;
-                thePeskyButtonText.text = "FEED ME!";
+                textComponent.text = "FEED ME!";
             }
         }
     }
@@ -60,14 +65,14 @@ public class PeskyButton : MonoBehaviour
         // Checks if button is satisfied. If not, the timer will begin again with a new interval. If true, mini game is over!
         if (!isButtonSatisfied())
         {
-            thePeskyButton.enabled = false;
+            buttonComponent.enabled = false;
             SetColor();
             SetTimeInterval();
             StartTimer();
         }
         else
         {
-            thePeskyButton.enabled = false;
+            buttonComponent.enabled = false;
             SetColor();
         }
     }
@@ -90,13 +95,13 @@ public class PeskyButton : MonoBehaviour
     // Sets the button colors based on its current state.
     private void SetColor()
     {
-        if (thePeskyButton.enabled)
+        if (buttonComponent.enabled)
         {
-            thePeskyButton.GetComponent<Image>().color = Color.red;
+            this.GetComponent<Image>().color = Color.red;
         }
         else
         {
-            thePeskyButton.GetComponent<Image>().color = Color.green;
+            this.GetComponent<Image>().color = Color.green;
         }
     }
 
@@ -105,9 +110,9 @@ public class PeskyButton : MonoBehaviour
     {
         if (buttonClickCount >= peskyButtonWinCondition)
         {
-            thePeskyButton.enabled = false;
+            this.enabled = false;
             SetColor();
-            thePeskyButtonText.text = "Ugh so many clicks...";
+            textComponent.text = "Ugh so many clicks...";
             return true;
         }
         return false;
