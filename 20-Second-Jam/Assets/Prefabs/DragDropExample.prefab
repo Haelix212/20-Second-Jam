@@ -174,7 +174,7 @@ GameObject:
   - component: {fileID: 1618715353732305077}
   - component: {fileID: 1599393865460247024}
   - component: {fileID: 489817802844138534}
-  - component: {fileID: 5195920543380116270}
+  - component: {fileID: 7505942015701044566}
   m_Layer: 5
   m_Name: DragDropExample
   m_TagString: Untagged
@@ -251,7 +251,7 @@ MonoBehaviour:
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
   m_PresetInfoIsWorld: 0
---- !u!114 &5195920543380116270
+--- !u!114 &7505942015701044566
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -357,6 +357,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2de05b7a51baa43549ebfdf06c8e48af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DragDrop
+  slot: {fileID: 0}
+  ReturnToLastPositionOnFail: 0
+  ReturnToOriginalPositionOnFail: 0
 --- !u!225 &55255176549196721
 CanvasGroup:
   m_ObjectHideFlags: 0
