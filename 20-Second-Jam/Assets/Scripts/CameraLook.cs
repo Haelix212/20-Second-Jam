@@ -12,6 +12,20 @@ public class CameraLook : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
     }
+    public void UnlockCursor()
+    {
+        Cursor.lockState = CursorLockMode.None;
+    }
+
+    public void UIModeCursor()
+    {
+        Cursor.lockState = CursorLockMode.Confined;
+    }
+
+    public void LockCursor()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+    }
 
     public void OnLook(InputValue value)
     {

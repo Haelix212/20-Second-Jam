@@ -8,7 +8,7 @@ public class ExampleDragBehavior : MonoBehaviour, IDragBehavior
         Debug.Log("Example Started Dragging");
     }
 
-    public void OnSuccessDropAction()
+    public void OnSuccessDropAction(GameObject slot)
     {
         Debug.Log("Example Successfully Dropped");    
     }
@@ -21,10 +21,5 @@ public class ExampleDragBehavior : MonoBehaviour, IDragBehavior
 
     public void OnEndDragAction(GameObject slot)
     {
-        Debug.Log("Example Ended Dragging");
-        if (slot != null)
-        {
-            Debug.Log("Dropped on slot: " + slot.name);
-        }
     }
 }

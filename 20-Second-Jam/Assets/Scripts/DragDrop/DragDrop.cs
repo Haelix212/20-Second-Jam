@@ -47,9 +47,9 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        slot = eventData.pointerEnter.GetComponent<ItemSlot>()?.gameObject;
         canvasGroup.alpha = 1f;
         canvasGroup.blocksRaycasts = true;
+        slot = eventData.pointerEnter?.GetComponent<ItemSlot>()?.gameObject;
         specialBehavior?.OnEndDragAction(slot);
 
         if (eventData.pointerEnter == null || eventData.pointerEnter.GetComponent<ItemSlot>() == null)
@@ -58,7 +58,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
         }
         else
         {
-            OnDropSuccess();
+            OnDropSuccess(eventData);
         }
 
     }
@@ -87,10 +87,15 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
         }
     }
 
-    public void OnDropSuccess()
+    public void OnDropSuccess(PointerEventData eventData)
     {
+        slot = eventData.pointerEnter.GetComponent<ItemSlot>()?.gameObject;
         lastPosition = rectTransform.anchoredPosition;
-        specialBehavior?.OnSuccessDropAction();
-        // Check if puzzle was completed should be put here
+        specialBehavior?.OnSuccessDropAction(slot);
+    }
+
+    public GameObject GetDraggedObject()
+    {
+        return this.gameObject;
     }
 }

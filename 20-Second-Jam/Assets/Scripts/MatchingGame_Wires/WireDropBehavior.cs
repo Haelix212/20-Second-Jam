@@ -11,7 +11,7 @@ public class WireBehaviorDropBehavior : MonoBehaviour, IDragBehavior
         Debug.Log("Example Started Dragging");
     }
 
-    public void OnSuccessDropAction()
+    public void OnSuccessDropAction(GameObject slot)
     {
         //Check if the wire is connected to the correct slot
         //If right, increment score and check win con, snap wire to slot, and disable dragging

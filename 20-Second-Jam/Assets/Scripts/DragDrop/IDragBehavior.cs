@@ -3,7 +3,7 @@ using UnityEngine;
 public interface IDragBehavior
 {
     void OnStartDragAction();
-    void OnSuccessDropAction();
+    void OnSuccessDropAction(GameObject slot);
     void OnFailedDropAction();
-    void OnEndDragAction( GameObject slot);
+    void OnEndDragAction(GameObject slot);
 }
