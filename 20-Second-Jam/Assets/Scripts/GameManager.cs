@@ -8,16 +8,18 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
 
     [Header("UI")]
-    [SerializeField] private TextMeshProUGUI timeText;
+    [SerializeField] private Canvas timerCanvas;
     [SerializeField] private GameObject gameOverPanel;
     [SerializeField] private Canvas menuCanvas;
     private float timeRemaining = 20f;
      private bool isGameActive = false;
+    private TextMeshProUGUI countdownTimer;
 
     private Transform menuTransform;    // Keeping serialized fields to a minimum
     private Transform settingsTransform;
     private Transform creditsTransform;
     private Transform activeMenu;       // Used to keep back button code simple
+    private TextMeshProUGUI timeText;
     public bool IsGameActive => isGameActive;
 
 
@@ -33,6 +35,7 @@ public class GameManager : MonoBehaviour
         Instance = this;
         
         DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(timerCanvas.gameObject);
 
         menuTransform = menuCanvas.transform.Find("MenuParent");
         settingsTransform = menuCanvas.transform.Find("SettingsParent");
@@ -50,18 +53,26 @@ public class GameManager : MonoBehaviour
         
         timeRemaining -= Time.deltaTime;
         UpdateUI();
+
+        //Debug.Log(Mathf.Round(timeRemaining) + " seconds remaining");
+        
     }
     public void StartGame()
     {
         // Load the game scene, rn is my test scene
-        if (SceneManager.GetActiveScene().name != "Movement")
+        if (SceneManager.GetActiveScene().name != "GameScene")
         {
-            SceneManager.LoadScene("Movement");
+            SceneManager.LoadScene("GameScene");
         }
         // Reset everything including my imaginary puzzle manager that will exist eventually
         // PuzzleManager.Instance.ResetPuzzlesCompleted();
-        timeRemaining = 20f;
+
+        // If we have a scripted animation before playing it goes here
+
+        timeRemaining = 20.5f;
         isGameActive = true;
+        timeText = timerCanvas.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
+        
         
         // Hide gameover panel
         if (gameOverPanel != null)
@@ -69,19 +80,28 @@ public class GameManager : MonoBehaviour
             gameOverPanel.SetActive(false);
         }
         UpdateUI();
+        timeText.gameObject.SetActive(true);
     }
     public void GameOver()
     {
         isGameActive = false;
-        if (gameOverPanel != null)
+        if (timeRemaining <= 0)
         {
-            gameOverPanel.SetActive(true);
+            if (gameOverPanel != null)
+            {
+                gameOverPanel.SetActive(true);
+            }
         }
+        else
+        {
+            // Win message
+        }
+        
     }
     private void UpdateUI()
     {
         if (timeText == null) return;
-        timeText.text = $"TIME TILL MELTDOWN:{timeRemaining:00}";
+        timeText.text = $"00:{timeRemaining:00}";
     }
     public void RestartGame()
     {
