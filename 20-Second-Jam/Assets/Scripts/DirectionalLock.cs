@@ -26,7 +26,6 @@ public class DirectionalLock : MonoBehaviour
 
     [Header("Puzzle UI")]
     public GameObject directionalLockPrefab;
-    public Image ParentPanel;
     public Vector3 spawnPosition;
     public Vector3 spawnOffset;
     public Texture[] puzzleMaterials;
@@ -150,7 +149,7 @@ public class DirectionalLock : MonoBehaviour
     private void UpdatePuzzleVisuals(KeyCode input, int i)
     {
         // Creates the prefab for the puzzle and sets its location
-        GameObject newImage = Instantiate(directionalLockPrefab, ParentPanel.transform);
+        GameObject newImage = Instantiate(directionalLockPrefab, this.transform);
         puzzleImages.Add(newImage);
 
         RectTransform rectTransform = puzzleImages[i].GetComponent<RectTransform>();
