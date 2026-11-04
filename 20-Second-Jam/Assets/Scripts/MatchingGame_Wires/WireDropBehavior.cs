@@ -5,20 +5,6 @@ using UnityEngine.UI;
 public class WireBehaviorDropBehavior : MonoBehaviour, IDragBehavior
 {
 
-    private GameObject slot;
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void OnStartDragAction()
     {
 
@@ -43,7 +29,7 @@ public class WireBehaviorDropBehavior : MonoBehaviour, IDragBehavior
         Debug.Log("Example Failed to Drop");
     }
 
-    public void OnEndDragAction()
+    public void OnEndDragAction(GameObject slot)
     {
         Debug.Log("Example Ended Dragging");
     }

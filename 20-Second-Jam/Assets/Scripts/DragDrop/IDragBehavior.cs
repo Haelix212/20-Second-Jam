@@ -5,5 +5,5 @@ public interface IDragBehavior
     void OnStartDragAction();
     void OnSuccessDropAction();
     void OnFailedDropAction();
-    void OnEndDragAction();
+    void OnEndDragAction( GameObject slot);
 }

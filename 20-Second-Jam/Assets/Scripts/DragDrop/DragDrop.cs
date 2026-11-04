@@ -9,6 +9,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
     private IDragBehavior specialBehavior;
     private Vector2 originalPosition;
     private Vector2 lastPosition;
+    public GameObject slot;
    
     // return to last and return to original should never both be true, right now just don't click both plz
     [SerializeField] public bool ReturnToLastPositionOnFail;
@@ -22,6 +23,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
         specialBehavior = GetComponent<IDragBehavior>();
         originalPosition = rectTransform.anchoredPosition;
         lastPosition = originalPosition;
+        slot = null;
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -45,9 +47,10 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        slot = eventData.pointerEnter.GetComponent<ItemSlot>()?.gameObject;
         canvasGroup.alpha = 1f;
         canvasGroup.blocksRaycasts = true;
-        specialBehavior?.OnEndDragAction();
+        specialBehavior?.OnEndDragAction(slot);
 
         if (eventData.pointerEnter == null || eventData.pointerEnter.GetComponent<ItemSlot>() == null)
         {
