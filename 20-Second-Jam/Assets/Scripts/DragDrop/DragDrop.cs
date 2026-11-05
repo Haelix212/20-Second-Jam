@@ -15,7 +15,8 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
     public GameObject slot;
     public float maxRaycastDistance = 5f;
     public float wireProximityCheck = 0.2f;
-   
+    private GameObject currentObject;
+
     // return to last and return to original should never both be true, right now just don't click both plz
     [SerializeField] public bool ReturnToLastPositionOnFail;
     [SerializeField] public bool ReturnToOriginalPositionOnFail;
@@ -30,6 +31,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
         originalPosition = rectTransform.anchoredPosition;
         lastPosition = originalPosition;
         slot = null;
+        currentObject = this.gameObject;
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -37,7 +39,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
         lastPosition = this.transform.position;
         canvasGroup.alpha = 0.6f;
 
-        EventSystem.current.SetSelectedGameObject(this.gameObject);
+        EventSystem.current.SetSelectedGameObject(currentObject);
         canvasGroup.blocksRaycasts = false;
 
     }
@@ -72,7 +74,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
                 slot = item.gameObject;
                 this.transform.position = slot.transform.position;
                 //specialBehavior?.OnEndDragAction(slot);
-                OnDropSuccess(eventData);
+                OnDropSuccess(slot);
             }
             else
             {
@@ -101,16 +103,15 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
     {
         canvasGroup.alpha = 1f;
         canvasGroup.blocksRaycasts = true;
-        slot = eventData.pointerEnter?.GetComponent<ItemSlot>()?.gameObject;
         specialBehavior?.OnEndDragAction(slot);
 
-        if (eventData.pointerEnter == null || eventData.pointerEnter.GetComponent<ItemSlot>() == null)
+        if (slot == null)
         {
             OnDropFail();
         }
         else
         {
-            OnDropSuccess(eventData);
+            OnDropSuccess(slot);
         }
 
     }
@@ -139,15 +140,14 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
         }
     }
 
-    public void OnDropSuccess(PointerEventData eventData)
+    public void OnDropSuccess(GameObject slot)
     {
-        slot = eventData.pointerEnter.GetComponent<ItemSlot>()?.gameObject;
         lastPosition = rectTransform.anchoredPosition;
         specialBehavior?.OnSuccessDropAction(slot);
     }
 
     public GameObject GetDraggedObject()
     {
-        return this.gameObject;
+        return currentObject;
     }
 }
