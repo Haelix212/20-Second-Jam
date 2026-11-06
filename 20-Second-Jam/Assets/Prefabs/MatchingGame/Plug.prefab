@@ -106,7 +106,7 @@ MonoBehaviour:
   maxRaycastDistance: 5
   wireProximityCheck: 0.2
   ReturnToLastPositionOnFail: 0
-  ReturnToOriginalPositionOnFail: 0
+  ReturnToOriginalPositionOnFail: 1
   UIInGameWorldSpace: 0
 --- !u!114 &2609102182187722084
 MonoBehaviour:

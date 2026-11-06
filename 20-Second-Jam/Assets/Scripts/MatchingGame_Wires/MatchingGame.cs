@@ -18,6 +18,8 @@ public class MatchingGame : MonoBehaviour
     public Vector3 slotSpawnPosition;
     public Vector3 spawnOffset;
 
+    private int matchedPairs = 0;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -129,6 +131,16 @@ public class MatchingGame : MonoBehaviour
             default:
                 Debug.LogError("Invalid identifier index: " + identifier);
                 break;
+        }
+    }
+
+    public void WireMatched()
+    {
+        matchedPairs++;
+        if (matchedPairs >= NumberOfPairs)
+        {
+            this.gameObject.SetActive(false);
+            Debug.Log("All wires matched!");
         }
     }
 }
