@@ -14,8 +14,8 @@ public class MatchingGame : MonoBehaviour
     private GameObject[] Plugs;
 
 
-    public Vector3 plugSpawnPosition;
-    public Vector3 slotSpawnPosition;
+    private Vector3 plugSpawnPosition;
+    private Vector3 slotSpawnPosition;
     public Vector3 spawnOffset;
 
     private int matchedPairs = 0;
@@ -23,10 +23,13 @@ public class MatchingGame : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+   
         //Declares array lengths
         Slots = new GameObject[NumberOfPairs];
         Plugs = new GameObject[NumberOfPairs];
 
+        AdjustPanelHeight();
+        SetSpawnOffsets();
         CreatePairs();
     }
 
@@ -83,55 +86,35 @@ public class MatchingGame : MonoBehaviour
 
     private void AssignPairs()
     {
-        List<int> Identifiers = new List<int>(NumberOfPairs);
+        List<Color> Identifiers = new List<Color>(NumberOfPairs);
+        List<Color> IdentifierCopies = new List<Color>(NumberOfPairs);
 
         for (int i = 0; i < NumberOfPairs; i++)
         {
-            Identifiers.Add(i);
+            Identifiers.Add(new Color(Random.value, Random.value, Random.value));
+            IdentifierCopies.Add(Identifiers[i]);
         }
 
         foreach (GameObject plug in Plugs)
         {
             int randomIndex = Random.Range(0, Identifiers.Count);
-            int identifier = Identifiers[randomIndex];
+            Color identifier = Identifiers[randomIndex];
             GiveColor(plug, identifier);
             Identifiers.RemoveAt(randomIndex);
         }
-
-        for (int i = 0; i < NumberOfPairs; i++)
-        {
-            Identifiers.Add(i);
-        }
-
+        
         foreach (GameObject slot in Slots)
         {
-            int randomIndex = Random.Range(0, Identifiers.Count);
-            int identifier = Identifiers[randomIndex];
+            int randomIndex = Random.Range(0, IdentifierCopies.Count);
+            Color identifier = IdentifierCopies[randomIndex];
             GiveColor(slot, identifier);
-            Identifiers.RemoveAt(randomIndex);
+            IdentifierCopies.RemoveAt(randomIndex);
         }
     }
 
-    private void GiveColor(GameObject obj, int identifier)
+    private void GiveColor(GameObject obj, Color identifier)
     {
-        switch (identifier)
-        {
-            case 0:
-                obj.GetComponent<Image>().color = Color.red;
-                break;
-            case 1:
-                obj.GetComponent<Image>().color = Color.blue;
-                break;
-            case 2:
-                obj.GetComponent<Image>().color = Color.green;
-                break;
-            case 3:
-                obj.GetComponent<Image>().color = Color.yellow;
-                break;
-            default:
-                Debug.LogError("Invalid identifier index: " + identifier);
-                break;
-        }
+        obj.GetComponent<Image>().color = identifier;
     }
 
     public void WireMatched()
@@ -142,5 +125,20 @@ public class MatchingGame : MonoBehaviour
             this.gameObject.SetActive(false);
             Debug.Log("All wires matched!");
         }
+    }
+
+    private void AdjustPanelHeight()
+    {
+        float slotHeight = slotPrefab.GetComponent<RectTransform>().rect.height;
+        RectTransform rectTransform = this.GetComponent<RectTransform>();
+        rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, slotHeight * (NumberOfPairs + 1));
+    }
+
+    private void SetSpawnOffsets()
+    {
+        float height = GetComponent<RectTransform>().rect.height;
+        float width = GetComponent<RectTransform>().rect.width;
+        plugSpawnPosition = new Vector3(-width / 3, height / 2 + spawnOffset.y, 0);
+        slotSpawnPosition = new Vector3(width / 3, height / 2 +spawnOffset.y, 0);
     }
 }
