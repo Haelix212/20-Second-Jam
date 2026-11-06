@@ -380,6 +380,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8247421701559761467, guid: 40682c47475ab43f2ac6c21865b6fca0, type: 3}
+      propertyPath: UIInGameWorldSpace
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8247421701559761467, guid: 40682c47475ab43f2ac6c21865b6fca0, type: 3}
       propertyPath: ReturnToOriginalPositionOnFail
       value: 1
       objectReference: {fileID: 0}
@@ -1454,6 +1458,10 @@ PrefabInstance:
     - target: {fileID: 8058901144427168775, guid: 40682c47475ab43f2ac6c21865b6fca0, type: 3}
       propertyPath: m_FillCenter
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8247421701559761467, guid: 40682c47475ab43f2ac6c21865b6fca0, type: 3}
+      propertyPath: UIInGameWorldSpace
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8247421701559761467, guid: 40682c47475ab43f2ac6c21865b6fca0, type: 3}
       propertyPath: ReturnToOriginalPositionOnFail
@@ -3931,6 +3939,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8247421701559761467, guid: 40682c47475ab43f2ac6c21865b6fca0, type: 3}
+      propertyPath: UIInGameWorldSpace
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8247421701559761467, guid: 40682c47475ab43f2ac6c21865b6fca0, type: 3}
       propertyPath: maxRaycastDistance
       value: 10
       objectReference: {fileID: 0}
@@ -4043,6 +4055,10 @@ PrefabInstance:
     - target: {fileID: 1625948737578156154, guid: 6b875b41403e96e4493331d7ec3d3665, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -0.366
+      objectReference: {fileID: 0}
+    - target: {fileID: 3463648915772058096, guid: 6b875b41403e96e4493331d7ec3d3665, type: 3}
+      propertyPath: UIInGameWorldSpace
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8893120971104843761, guid: 6b875b41403e96e4493331d7ec3d3665, type: 3}
       propertyPath: m_Camera
