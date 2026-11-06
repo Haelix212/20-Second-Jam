@@ -102,6 +102,8 @@ public class GameManager : MonoBehaviour
     {
         if (timeText == null) return;
         timeText.text = $"00:{timeRemaining:00}";
+        if (Mathf.Round(timeRemaining) % 2 == 0) timeText.color = Color.red;
+        else timeText.color = Color.yellow;
     }
     public void RestartGame()
     {
