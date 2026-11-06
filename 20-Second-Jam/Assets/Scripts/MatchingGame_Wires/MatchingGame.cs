@@ -10,13 +10,13 @@ public class MatchingGame : MonoBehaviour
     public GameObject slotPrefab;
     public GameObject plugPrefab;
 
-    public Image ParentPanel;
-
     private GameObject[] Slots;
     private GameObject[] Plugs;
 
+
+    public Vector3 plugSpawnPosition;
+    public Vector3 slotSpawnPosition;
     public Vector3 spawnOffset;
-    private Vector3 spawnPosition = Vector3.zero;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -40,26 +40,40 @@ public class MatchingGame : MonoBehaviour
 
         for (int i = 0; i < Plugs.Length; i++)
         {
-            GameObject newPlug = Instantiate(plugPrefab, ParentPanel.transform);
+            GameObject newPlug = Instantiate(plugPrefab, this.transform);
             Plugs[i] = newPlug;
 
             RectTransform rectTransform = Plugs[i].GetComponent<RectTransform>();
 
-            rectTransform.anchoredPosition = spawnPosition + spawnOffset;
-            spawnOffset += initialSpawnOffset;
+            if(i > 0)
+            {
+                rectTransform.anchoredPosition = plugSpawnPosition + spawnOffset;
+                spawnOffset += initialSpawnOffset;
+            }
+            else
+            {
+                rectTransform.anchoredPosition = plugSpawnPosition;
+            }
         }
 
         spawnOffset = initialSpawnOffset;
 
         for (int i = 0; i < Slots.Length; i++)
         {
-            GameObject newSlot = Instantiate(slotPrefab, ParentPanel.transform);
+            GameObject newSlot = Instantiate(slotPrefab, this.transform);
             Slots[i] = newSlot;
 
             RectTransform rectTransform = Slots[i].GetComponent<RectTransform>();
 
-            rectTransform.anchoredPosition = spawnPosition + spawnOffset;
-            spawnOffset += initialSpawnOffset;
+            if(i > 0)
+            {
+                rectTransform.anchoredPosition = slotSpawnPosition + spawnOffset;
+                spawnOffset += initialSpawnOffset;
+            }
+            else
+            {
+                rectTransform.anchoredPosition = slotSpawnPosition;
+            }
         }
 
         AssignPairs();
