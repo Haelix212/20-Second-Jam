@@ -90,6 +90,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SequenceGame
   sequenceLength: 10
   buttonPrefab: {fileID: 5883639389557871208, guid: 9e88215fd87c5614189384f3d94d9552, type: 3}
-  spawnOffset: {x: 50, y: 0, z: 0}
-  secondRowOffset: {x: 0, y: -50, z: 0}
+  spawnOffset: {x: 60, y: 0, z: 0}
+  secondRowOffset: {x: 0, y: -60, z: 0}
   lockOutTimer: 0.5

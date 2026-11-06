@@ -211,14 +211,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3213425656038437758, guid: ac7719eaa80e64744a790e002b9d125f, type: 3}
-      propertyPath: spawnOffset.x
-      value: 60
-      objectReference: {fileID: 0}
-    - target: {fileID: 3213425656038437758, guid: ac7719eaa80e64744a790e002b9d125f, type: 3}
-      propertyPath: secondRowOffset.y
-      value: -60
-      objectReference: {fileID: 0}
     - target: {fileID: 3554630615682008435, guid: ac7719eaa80e64744a790e002b9d125f, type: 3}
       propertyPath: m_SizeDelta.x
       value: 310
