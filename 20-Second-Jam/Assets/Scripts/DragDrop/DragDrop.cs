@@ -8,18 +8,27 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
     private RectTransform rectTransform;
     private CanvasGroup canvasGroup;
     private Canvas canvas;
+     private BoxCollider canvasCollider;
     private IDragBehavior specialBehavior;
-    private Vector2 originalPosition;
-    private Vector2 lastPosition;
-    private BoxCollider canvasCollider;
+
+
+    private Vector3 originalPosition;
+    private Vector3 lastPosition;
+
+
+   
     public GameObject slot;
+
     public float maxRaycastDistance = 5f;
     public float wireProximityCheck = 0.2f;
+
     private GameObject currentObject;
 
     // return to last and return to original should never both be true, right now just don't click both plz
+    
     [SerializeField] public bool ReturnToLastPositionOnFail;
     [SerializeField] public bool ReturnToOriginalPositionOnFail;
+    [SerializeField] public bool UIInGameWorldSpace;
 
     private void Awake()
     {
@@ -28,7 +37,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
         canvas = GetComponentInParent<Canvas>();
         canvasCollider = canvas.GetComponent<BoxCollider>();
         specialBehavior = GetComponent<IDragBehavior>();
-        originalPosition = rectTransform.anchoredPosition;
+        originalPosition = this.transform.position;
         lastPosition = originalPosition;
         slot = null;
         currentObject = this.gameObject;
@@ -40,9 +49,15 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
 
         lastPosition = this.transform.position;
         canvasGroup.alpha = 0.6f;
-
+        if (UIInGameWorldSpace)
+        {
+            canvasGroup.blocksRaycasts = false;
+        }
+        else
+        {
+            canvasGroup.blocksRaycasts = true;
+        }
         EventSystem.current.SetSelectedGameObject(currentObject);
-        canvasGroup.blocksRaycasts = false;
 
     }
 
@@ -62,13 +77,15 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
     {
         if (canvasCollider == null) return;
 
-        EventSystem.current.SetSelectedGameObject(null);
-        canvasGroup.blocksRaycasts = true;
-        canvasGroup.alpha = 1f;
-
-        ItemSlot[] slots = canvas.transform.GetComponentsInChildren<ItemSlot>();
-        foreach (ItemSlot item in slots)
+        if (UIInGameWorldSpace)
         {
+            EventSystem.current.SetSelectedGameObject(null);
+            canvasGroup.blocksRaycasts = true;
+            canvasGroup.alpha = 1f;
+
+            ItemSlot[] slots = canvas.transform.GetComponentsInChildren<ItemSlot>();
+            foreach (ItemSlot item in slots)
+            {
             if (Vector3.Distance(item.transform.position, this.transform.position) < wireProximityCheck) {
                 slot = item.gameObject;
                 this.transform.position = slot.transform.position;
@@ -79,8 +96,17 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
             {
                 OnDropFail();
             }
+            }
         }
-    }
+            else
+            {
+                canvasGroup.blocksRaycasts = false;
+
+            }
+
+        
+        }
+
 
     public void OnBeginDrag(PointerEventData eventData)
     {
@@ -102,6 +128,10 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
     {
         canvasGroup.alpha = 1f;
         canvasGroup.blocksRaycasts = true;
+        if (!UIInGameWorldSpace)
+        {
+            slot = eventData.pointerEnter?.GetComponent<ItemSlot>()?.gameObject;
+        }
         specialBehavior?.OnEndDragAction(slot);
 
         if (slot == null)
@@ -117,12 +147,12 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
 
     public void ResetPosition()
     {
-        rectTransform.anchoredPosition = originalPosition;
+        this.transform.position = originalPosition;
     }
 
     public void ReturnToLastPosition()
     {
-        rectTransform.anchoredPosition = lastPosition;
+        this.transform.position = lastPosition;
     }
 
     public void OnDropFail()
@@ -141,7 +171,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
 
     public void OnDropSuccess(GameObject slot)
     {
-        lastPosition = rectTransform.anchoredPosition;
+        lastPosition = this.transform.position;
         specialBehavior?.OnSuccessDropAction(slot);
     }
 
