@@ -83,6 +83,7 @@ public class DirectionalLock : MonoBehaviour
             puzzleAnswer.Add(randomDirection);
             UpdatePuzzleVisuals(randomDirection, i);
         }
+        AdjustPanelWidth();
         puzzleActive = true;
         //print("Code Sequence: " + string.Join(", ", puzzleAnswer));
     }
@@ -183,5 +184,11 @@ public class DirectionalLock : MonoBehaviour
         }
         puzzleImages.Clear();
         puzzleAnswer.Clear();
+    }
+
+    private void AdjustPanelWidth()
+    {
+        RectTransform rectTransform = this.GetComponent<RectTransform>();
+        rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, spawnOffset.x * (puzzleLength+1));
     }
 }
