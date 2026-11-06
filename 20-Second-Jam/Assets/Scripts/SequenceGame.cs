@@ -10,7 +10,7 @@ public class SequenceGame : MonoBehaviour
 
     [Header("Sequence Variables")]
     public int sequenceLength;
-    public GameObject sequencePrefab;
+    public GameObject buttonPrefab;
     public Vector3 spawnOffset;
     public Vector3 secondRowOffset;
     public float lockOutTimer;
@@ -42,7 +42,9 @@ public class SequenceGame : MonoBehaviour
         int secondRowIndex = 0;
         for (int i = 0; i < buttons.Length; i++)
         {
-            buttons[i] = Instantiate(sequencePrefab, this.transform);
+            buttons[i] = Instantiate(buttonPrefab, this.transform);
+            buttons[i].GetComponent<UnityEngine.UI.Button>().onClick.RemoveAllListeners();
+            buttons[i].GetComponent<UnityEngine.UI.Button>().onClick.AddListener(CheckSequence);
 
             RectTransform rectTransform = buttons[i].GetComponent<RectTransform>();
             Vector3 spawnPosition = rectTransform.anchoredPosition;
@@ -79,29 +81,30 @@ public class SequenceGame : MonoBehaviour
         }
     }
 
-    public void CheckSequence(GameObject clickedButton)
+    public void CheckSequence()
     {
+        GameObject clickedButton = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject;
         Text buttonText = clickedButton.transform.GetChild(0).GetComponent<Text>();
 
-        print (buttonText.text);
-        print(sequenceIndex);
-
-        if(buttonText.text == sequenceIndex.ToString())
+        if (buttonText != null)
         {
-            clickedButton.GetComponent<UnityEngine.UI.Button>().interactable = false;
-            clickedButton.GetComponent<UnityEngine.UI.Image>().color = Color.green;
-            sequenceIndex++;
-        }
-        else
-        {
-            clickedButton.GetComponent<UnityEngine.UI.Image>().color = Color.red;
-            /*
-            foreach(GameObject button in buttons)
+            if (buttonText.text == sequenceIndex.ToString())
             {
-                button.GetComponent<UnityEngine.UI.Button>().interactable = false;
+                clickedButton.GetComponent<UnityEngine.UI.Button>().interactable = false;
+                clickedButton.GetComponent<UnityEngine.UI.Image>().color = Color.green;
+                sequenceIndex++;
+                CheckForWin();
             }
-            */
-            ResetPuzzle();
+            else
+            {
+                clickedButton.GetComponent<UnityEngine.UI.Image>().color = Color.red;
+                foreach(GameObject button in buttons)
+                {
+                    button.GetComponent<UnityEngine.UI.Button>().interactable = false;
+                }
+
+                StartCoroutine(WaitAndResetPuzzle());
+            }
         }
     }
 
@@ -112,6 +115,21 @@ public class SequenceGame : MonoBehaviour
         {
             button.GetComponent<UnityEngine.UI.Image>().color = Color.white;
             button.GetComponent<UnityEngine.UI.Button>().interactable = true;
+        }
+    }
+
+    private IEnumerator WaitAndResetPuzzle()
+    {
+        yield return new WaitForSeconds(lockOutTimer);
+        ResetPuzzle();
+    }
+
+    private void CheckForWin()
+    {
+        if (sequenceIndex == sequenceLength)
+        {
+            Debug.Log("Sequence Completed!");
+            // Implement win condition logic here
         }
     }
 }
