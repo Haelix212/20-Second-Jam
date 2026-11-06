@@ -102,11 +102,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2de05b7a51baa43549ebfdf06c8e48af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DragDrop
-  slot: {fileID: 3504302804623966215, guid: fae3a78a4c122a4488ab6164ea78752c, type: 3}
+  slot: {fileID: 0}
   maxRaycastDistance: 5
   wireProximityCheck: 0.2
   ReturnToLastPositionOnFail: 0
-  ReturnToOriginalPositionOnFail: 1
+  ReturnToOriginalPositionOnFail: 0
   UIInGameWorldSpace: 0
 --- !u!114 &2609102182187722084
 MonoBehaviour:

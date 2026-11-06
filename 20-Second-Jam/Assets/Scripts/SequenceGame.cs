@@ -17,6 +17,7 @@ public class SequenceGame : MonoBehaviour
 
     private GameObject[] buttons;
     private int sequenceIndex;
+    private Vector3 buttonSpawnPosition;
 
     void Start()
     {
@@ -33,6 +34,8 @@ public class SequenceGame : MonoBehaviour
     private void GenerateSequence()
     {
         sequenceIndex = 0;
+        AdjustPanelWidth();
+        SetSpawnLocations();  
         SpawnButtons();
         AssignNumbers();
     }
@@ -47,15 +50,15 @@ public class SequenceGame : MonoBehaviour
             buttons[i].GetComponent<UnityEngine.UI.Button>().onClick.AddListener(CheckSequence);
 
             RectTransform rectTransform = buttons[i].GetComponent<RectTransform>();
-            Vector3 spawnPosition = rectTransform.anchoredPosition;
+            //buttonSpawnPosition = rectTransform.anchoredPosition;
 
             if (i < buttons.Length / 2)
             {
-                rectTransform.anchoredPosition = spawnPosition + spawnOffset * i;
+                rectTransform.anchoredPosition = buttonSpawnPosition + spawnOffset * i;
             }
             else
             {
-                rectTransform.anchoredPosition = spawnPosition + (spawnOffset * secondRowIndex) + secondRowOffset;
+                rectTransform.anchoredPosition = buttonSpawnPosition + (spawnOffset * secondRowIndex) + secondRowOffset;
                 secondRowIndex++;
             }
         }
@@ -132,4 +135,19 @@ public class SequenceGame : MonoBehaviour
             // Implement win condition logic here
         }
     }
+
+    private void AdjustPanelWidth()
+    {
+        float buttonWidth = buttonPrefab.GetComponent<RectTransform>().rect.width;
+        RectTransform rectTransform = this.GetComponent<RectTransform>();
+        rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, buttonWidth * (sequenceLength/2 + 1));
+    }
+
+    private void SetSpawnLocations()
+    {
+        float height = GetComponent<RectTransform>().rect.height;
+        float width = GetComponent<RectTransform>().rect.width;
+        buttonSpawnPosition = new Vector3(-width / 3, (height-10f)/4, 0);
+    }
+
 }

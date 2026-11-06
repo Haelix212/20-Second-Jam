@@ -29,7 +29,7 @@ public class MatchingGame : MonoBehaviour
         Plugs = new GameObject[NumberOfPairs];
 
         AdjustPanelHeight();
-        SetSpawnOffsets();
+        SetSpawnPositions();
         CreatePairs();
     }
 
@@ -134,11 +134,11 @@ public class MatchingGame : MonoBehaviour
         rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, slotHeight * (NumberOfPairs + 1));
     }
 
-    private void SetSpawnOffsets()
+    private void SetSpawnPositions()
     {
         float height = GetComponent<RectTransform>().rect.height;
         float width = GetComponent<RectTransform>().rect.width;
         plugSpawnPosition = new Vector3(-width / 3, height / 2 + spawnOffset.y, 0);
-        slotSpawnPosition = new Vector3(width / 3, height / 2 +spawnOffset.y, 0);
+        slotSpawnPosition = new Vector3(width / 3, height / 2 + spawnOffset.y, 0);
     }
 }
