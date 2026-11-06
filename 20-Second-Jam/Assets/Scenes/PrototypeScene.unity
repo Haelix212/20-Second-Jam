@@ -1402,6 +1402,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 392914575722142691, guid: 40682c47475ab43f2ac6c21865b6fca0, type: 3}
+      propertyPath: m_TagString
+      value: Slot
+      objectReference: {fileID: 0}
     - target: {fileID: 489817802844138534, guid: 40682c47475ab43f2ac6c21865b6fca0, type: 3}
       propertyPath: m_PresetInfoIsWorld
       value: 1
@@ -1508,7 +1512,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1877327630960892467, guid: 40682c47475ab43f2ac6c21865b6fca0, type: 3}
       propertyPath: m_TagString
-      value: Slot
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 2966777401763898245, guid: 40682c47475ab43f2ac6c21865b6fca0, type: 3}
       propertyPath: m_AnchorMax.x
@@ -1592,11 +1596,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8247421701559761467, guid: 40682c47475ab43f2ac6c21865b6fca0, type: 3}
       propertyPath: ReturnToLastPositionOnFail
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8247421701559761467, guid: 40682c47475ab43f2ac6c21865b6fca0, type: 3}
       propertyPath: ReturnToOriginalPositionOnFail
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

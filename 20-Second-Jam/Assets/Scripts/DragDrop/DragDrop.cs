@@ -36,6 +36,8 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        if (canvasCollider == null) return;
+
         lastPosition = this.transform.position;
         canvasGroup.alpha = 0.6f;
 
@@ -46,23 +48,20 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
 
     public void OnUpdateSelected(BaseEventData eventData)
     {
-        //Debug.Log("Camera forward: " + Camera.main.transform.InverseTransformDirection(transform.forward));
-
-        Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
+        if (canvasCollider == null) return;
         
-        //Debug.Log(eventData.selectedObject);
+        Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
 
-
-        // transform.position.z value of the UI objects never change as they move with respect to their canvas
-        // Need to convert a raycast from the camera to new local x,y info for the UI object at each update
-
-        if (canvasCollider.Raycast(ray, out RaycastHit hit, maxRaycastDistance)) this.transform.position = new Vector3(hit.point.x, hit.point.y, hit.point.z);
-        //Debug.Log("Point: " + hit.point);
-        //Debug.Log("Item position: " + transform.position);
+        if (canvasCollider.Raycast(ray, out RaycastHit hit, maxRaycastDistance))
+        {
+            this.transform.position = new Vector3(hit.point.x, hit.point.y, hit.point.z);
+        }
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
+        if (canvasCollider == null) return;
+
         EventSystem.current.SetSelectedGameObject(null);
         canvasGroup.blocksRaycasts = true;
         canvasGroup.alpha = 1f;
