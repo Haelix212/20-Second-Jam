@@ -9,16 +9,21 @@ public class SettingsManager : MonoBehaviour
     private Slider musicSlider;
     private Slider sfxSlider;
     private Toggle cameraInvert;
+    private Slider mouseSenseSlider;
 
     public AudioMixer mixer;
 
     public void Start()
     {
         Transform settingsPanel = this.transform.Find("SettingsParent");
+
         masterSlider = settingsPanel.Find("MasterVolumeSlider").GetComponent<Slider>();
         musicSlider = settingsPanel.Find("MusicVolumeSlider").GetComponent<Slider>();
         sfxSlider = settingsPanel.Find("SFXVolumeSlider").GetComponent<Slider>();
+
         cameraInvert = settingsPanel.Find("CameraInvert").GetComponent<Toggle>();
+
+        mouseSenseSlider = settingsPanel.Find("MouseSenseSlider").GetComponent<Slider>();
 
         // Initalize sound setting sliders
         if (PlayerPrefs.HasKey("MasterVolume"))
@@ -26,8 +31,8 @@ public class SettingsManager : MonoBehaviour
             mixer.SetFloat("MasterVolume", PlayerPrefs.GetFloat("MasterVolume"));
             mixer.SetFloat("MusicVolume", PlayerPrefs.GetFloat("MusicVolume"));
             mixer.SetFloat("SFXVolume", PlayerPrefs.GetFloat("SFXVolume"));
+            SetSliders();
         }
-        SetSliders();
 
         // Initalize camera invert setting
         if (PlayerPrefs.HasKey("CameraInvert"))
@@ -47,16 +52,20 @@ public class SettingsManager : MonoBehaviour
         }
 
         // Initialize mouse sensitivity setting
+        if (PlayerPrefs.HasKey("MouseSense"))
+        {
+            SetMouseSlider();
+        }
     }
 
-    private void SetSliders ()
+    private void SetSliders()
     {
         masterSlider.value = PlayerPrefs.GetFloat("MasterVolume");
         musicSlider.value = PlayerPrefs.GetFloat("MusicVolume");
         sfxSlider.value = PlayerPrefs.GetFloat("SFXVolume");
     }
 
-    public void UpdateMasterVolume ()
+    public void UpdateMasterVolume()
     {
         mixer.SetFloat("MasterVolume", masterSlider.value);
         PlayerPrefs.SetFloat("MasterVolume", masterSlider.value);
@@ -77,5 +86,16 @@ public class SettingsManager : MonoBehaviour
     public void UpdateCameraInvert()
     {
         PlayerPrefs.SetInt("CameraInvert", -PlayerPrefs.GetInt("CameraInvert"));
+    }
+
+    private void SetMouseSlider()
+    {
+        mouseSenseSlider.value = PlayerPrefs.GetFloat("MouseSense");
+    }
+
+    public void UpdateMouseSlider()
+    {
+        PlayerPrefs.SetFloat("MouseSense", mouseSenseSlider.value);
+        Debug.Log("Mouse sensitivity set to: " + PlayerPrefs.GetFloat("MouseSense"));
     }
 }

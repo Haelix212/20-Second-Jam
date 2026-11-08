@@ -3,20 +3,21 @@ using UnityEngine.InputSystem;
 
 public class CameraLook : MonoBehaviour
 {
-    [SerializeField] private float mouseSensitivity = 0.1f;
+    
     private Vector2 lookInput;
     private float cameraVectorX;
     private float cameraVectorY;
+
     private int cameraInvert = 1; // 1 = no invert, -1 = inverted
+    private float mouseSensitivity = 0.1f; // float from 0.01 to 1.0
 
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        if (PlayerPrefs.HasKey("CameraInvert"))
-        {
-            cameraInvert = PlayerPrefs.GetInt("CameraInvert");
-        }
+
+        if (PlayerPrefs.HasKey("CameraInvert")) cameraInvert = PlayerPrefs.GetInt("CameraInvert");
+        if (PlayerPrefs.HasKey("MouseSense")) mouseSensitivity = PlayerPrefs.GetFloat("MouseSense");
 
     }
     public void UnlockCursor()
