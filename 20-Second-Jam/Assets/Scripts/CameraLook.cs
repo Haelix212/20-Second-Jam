@@ -7,11 +7,17 @@ public class CameraLook : MonoBehaviour
     private Vector2 lookInput;
     private float cameraVectorX;
     private float cameraVectorY;
+    private int cameraInvert = 1; // 1 = no invert, -1 = inverted
 
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        if (PlayerPrefs.HasKey("CameraInvert"))
+        {
+            cameraInvert = PlayerPrefs.GetInt("CameraInvert");
+        }
+
     }
     public void UnlockCursor()
     {
@@ -39,7 +45,7 @@ public class CameraLook : MonoBehaviour
         float mouseY = lookInput.y * mouseSensitivity;
 
         cameraVectorY += mouseX;
-        cameraVectorX -= mouseY;
+        cameraVectorX -= (mouseY * cameraInvert);
 
         cameraVectorX = Mathf.Clamp(cameraVectorX, -90f, 90f);
         cameraVectorY = Mathf.Clamp(cameraVectorY, -115f, 115f);
