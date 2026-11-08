@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -10,20 +11,24 @@ public class SettingsManager : MonoBehaviour
     private Slider sfxSlider;
     private Toggle cameraInvert;
     private Slider mouseSenseSlider;
+    private Slider screenShakeSlider;
 
     public AudioMixer mixer;
 
     public void Start()
     {
         Transform settingsPanel = this.transform.Find("SettingsParent");
+        Transform soundSettings = settingsPanel.Find("SoundParent");
+        Transform videoSettings = settingsPanel.Find("VideoParent");
 
-        masterSlider = settingsPanel.Find("MasterVolumeSlider").GetComponent<Slider>();
-        musicSlider = settingsPanel.Find("MusicVolumeSlider").GetComponent<Slider>();
-        sfxSlider = settingsPanel.Find("SFXVolumeSlider").GetComponent<Slider>();
+        masterSlider = soundSettings.Find("MasterVolumeSlider").GetComponent<Slider>();
+        musicSlider = soundSettings.Find("MusicVolumeSlider").GetComponent<Slider>();
+        sfxSlider = soundSettings.Find("SFXVolumeSlider").GetComponent<Slider>();
 
-        cameraInvert = settingsPanel.Find("CameraInvert").GetComponent<Toggle>();
+        mouseSenseSlider = videoSettings.Find("MouseSenseSlider").GetComponent<Slider>();
+        screenShakeSlider = videoSettings.Find("ScreenShakeSlider").GetComponent<Slider>();
+        cameraInvert = videoSettings.Find("CameraInvert").GetComponent<Toggle>();
 
-        mouseSenseSlider = settingsPanel.Find("MouseSenseSlider").GetComponent<Slider>();
 
         // Initalize sound setting sliders
         if (PlayerPrefs.HasKey("MasterVolume"))
@@ -55,6 +60,12 @@ public class SettingsManager : MonoBehaviour
         if (PlayerPrefs.HasKey("MouseSense"))
         {
             SetMouseSlider();
+        }
+
+        // Initalize screen shake setting
+        if (PlayerPrefs.HasKey("ScreenShake"))
+        {
+            SetShakeSlider();
         }
     }
 
@@ -96,6 +107,15 @@ public class SettingsManager : MonoBehaviour
     public void UpdateMouseSlider()
     {
         PlayerPrefs.SetFloat("MouseSense", mouseSenseSlider.value);
-        Debug.Log("Mouse sensitivity set to: " + PlayerPrefs.GetFloat("MouseSense"));
+    }
+
+    private void SetShakeSlider()
+    {
+        screenShakeSlider.value = PlayerPrefs.GetFloat("ScreenShake");
+    }
+
+    public void UpdateShakeSlider()
+    {
+        PlayerPrefs.SetFloat("ScreenShake", screenShakeSlider.value);
     }
 }

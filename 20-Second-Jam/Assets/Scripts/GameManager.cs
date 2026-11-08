@@ -13,13 +13,16 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Canvas menuCanvas;
     private float timeRemaining = 20f;
      private bool isGameActive = false;
-    private TextMeshProUGUI countdownTimer;
 
     private Transform menuTransform;    // Keeping serialized fields to a minimum
     private Transform settingsTransform;
     private Transform creditsTransform;
     private Transform activeMenu;       // Used to keep back button code simple
+    private Transform videoSettings;
+    private Transform soundSettings;
+    
     private TextMeshProUGUI timeText;
+    
     public bool IsGameActive => isGameActive;
 
 
@@ -40,6 +43,9 @@ public class GameManager : MonoBehaviour
         menuTransform = menuCanvas.transform.Find("MenuParent");
         settingsTransform = menuCanvas.transform.Find("SettingsParent");
         creditsTransform = menuCanvas.transform.Find("CreditsParent");
+
+        videoSettings = settingsTransform.Find("VideoParent");
+        soundSettings = settingsTransform.Find("SoundParent");
     }
 
 
@@ -130,5 +136,19 @@ public class GameManager : MonoBehaviour
     {
         activeMenu.gameObject.SetActive(false);
         menuTransform.gameObject.SetActive(true);
+    }
+
+    public void ChangeSettingsPage()
+    {
+        if (soundSettings.gameObject.activeSelf)
+        {
+            soundSettings.gameObject.SetActive(false);
+            videoSettings.gameObject.SetActive(true);
+        }
+        else
+        {
+            videoSettings.gameObject.SetActive(false);
+            soundSettings.gameObject.SetActive(true);
+        }
     }
 }
