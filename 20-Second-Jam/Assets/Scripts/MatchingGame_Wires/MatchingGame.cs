@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Identifiers;
 using UnityEngine.UI;
 
 public class MatchingGame : MonoBehaviour
@@ -86,30 +87,14 @@ public class MatchingGame : MonoBehaviour
 
     private void AssignPairs()
     {
-        List<Color> Identifiers = new List<Color>(NumberOfPairs);
-        List<Color> IdentifierCopies = new List<Color>(NumberOfPairs);
-
-        for (int i = 0; i < NumberOfPairs; i++)
-        {
-            Identifiers.Add(new Color(Random.value, Random.value, Random.value));
-            IdentifierCopies.Add(Identifiers[i]);
-        }
-
-        foreach (GameObject plug in Plugs)
-        {
-            int randomIndex = Random.Range(0, Identifiers.Count);
-            Color identifier = Identifiers[randomIndex];
-            GiveColor(plug, identifier);
-            Identifiers.RemoveAt(randomIndex);
-        }
-        
-        foreach (GameObject slot in Slots)
-        {
-            int randomIndex = Random.Range(0, IdentifierCopies.Count);
-            Color identifier = IdentifierCopies[randomIndex];
-            GiveColor(slot, identifier);
-            IdentifierCopies.RemoveAt(randomIndex);
-        }
+       if(NumberOfPairs > 4)
+       {
+            CreateInfinitePairs();
+       }
+       else
+       {
+            CreateSimplePairs();
+       }
     }
 
     private void GiveColor(GameObject obj, Color identifier)
@@ -124,6 +109,8 @@ public class MatchingGame : MonoBehaviour
         {
             this.gameObject.SetActive(false);
             Debug.Log("All wires matched!");
+            //Stubbe in PuzzleManager call to complete the puzzle.
+            //PuzzleManager.Instance.SetPuzzleCompleted("Wires");
         }
     }
 
@@ -140,5 +127,87 @@ public class MatchingGame : MonoBehaviour
         float width = GetComponent<RectTransform>().rect.width;
         plugSpawnPosition = new Vector3(-width / 3, height / 2 + spawnOffset.y, 0);
         slotSpawnPosition = new Vector3(width / 3, height / 2 + spawnOffset.y, 0);
+    } 
+
+    private void CreateInfinitePairs()
+    {
+        List<Color> Identifiers = new List<Color>(NumberOfPairs);
+        List<Color> IdentifierCopies = new List<Color>(NumberOfPairs);
+
+        //Genrates a random color and adds its to color array.
+        for (int i = 0; i < NumberOfPairs; i++)
+        {
+            Identifiers.Add(new Color(Random.value, Random.value, Random.value));
+            IdentifierCopies.Add(Identifiers[i]);
+        }
+
+        //Loops through each plug in the array and it assigns it a random color from the list.
+        // Color is then removed from the list so it does not repeat.
+        foreach (GameObject plug in Plugs)
+        {
+            int randomIndex = Random.Range(0, Identifiers.Count);
+            Color identifier = Identifiers[randomIndex];
+            GiveColor(plug, identifier);
+            Identifiers.RemoveAt(randomIndex);
+        }
+        // Same as above but for slots.
+        foreach (GameObject slot in Slots)
+        {
+            int randomIndex = Random.Range(0, IdentifierCopies.Count);
+            Color identifier = IdentifierCopies[randomIndex];
+            GiveColor(slot, identifier);
+            IdentifierCopies.RemoveAt(randomIndex);
+        }
     }
+
+    // Uses old logic of using a switch statement.
+    //Choices are limited but can be expanded if we want more than 4 pairs.
+    private void CreateSimplePairs()
+    {
+        List<Color> Identifiers = new List<Color>(NumberOfPairs);
+        List<Color> IdentifierCopies = new List<Color>(NumberOfPairs);
+
+        //Fills Identifier lists with colors.
+        for (int i = 0; i < NumberOfPairs; i++)
+        {
+            switch (i)
+            {
+                case 0:
+                    Identifiers.Add(Color.red);
+                    break;
+                case 1:
+                    Identifiers.Add(Color.green);
+                    break;
+                case 2:
+                    Identifiers.Add(Color.blue);
+                    break;
+                case 3:
+                    Identifiers.Add(Color.yellow);
+                    break;
+                default:
+                    break;
+            }
+            IdentifierCopies.Add(Identifiers[i]);
+        }
+
+        // Loops through each plug in the array.  Assigns a random color and removes its from the list.
+        foreach (GameObject plug in Plugs)
+        {
+            int randomIndex = Random.Range(0, Identifiers.Count);
+            Color identifier = Identifiers[randomIndex];
+            GiveColor(plug, identifier);
+            Identifiers.RemoveAt(randomIndex);
+        }
+        //Same as above but for slots.
+        foreach (GameObject slot in Slots)
+        {
+            int randomIndex = Random.Range(0, IdentifierCopies.Count);
+            Color identifier = IdentifierCopies[randomIndex];
+            GiveColor(slot, identifier);
+            IdentifierCopies.RemoveAt(randomIndex);
+        }
+
+    }
+
+
 }

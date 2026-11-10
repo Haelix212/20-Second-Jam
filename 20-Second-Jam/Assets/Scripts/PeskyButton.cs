@@ -70,11 +70,6 @@ public class PeskyButton : MonoBehaviour
             SetTimeInterval();
             StartTimer();
         }
-        else
-        {
-            buttonComponent.interactable = false;
-            //SetColor();
-        }
     }
     
     // Function uses the set min and max values to generate a random interval for what parameters we set. Rounds to nearest whole number to keep it pretty.
@@ -112,6 +107,8 @@ public class PeskyButton : MonoBehaviour
         {
             buttonComponent.interactable = false;
             SetColor();
+            //Stubbing in PuzzleManager call for puzzle complete.
+            //PuzzleManager.Instance.SetPuzzleCompleted("GluttonousButton");
             return true;
         }
         return false;

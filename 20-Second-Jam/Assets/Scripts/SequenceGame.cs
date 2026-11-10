@@ -131,6 +131,8 @@ public class SequenceGame : MonoBehaviour
     {
         if (sequenceIndex == sequenceLength)
         {
+            //Stubbing in PuzzleManager call for puzzle complete.
+            //PuzzleManager.Instance.SetPuzzleCompleted("Sequence");
             Debug.Log("Sequence Completed!");
             // Implement win condition logic here
         }
