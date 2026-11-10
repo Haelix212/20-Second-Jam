@@ -17,7 +17,7 @@ public class MatchingGame : MonoBehaviour
 
     private Vector3 plugSpawnPosition;
     private Vector3 slotSpawnPosition;
-    public Vector3 spawnOffset;
+    private Vector3 spawnOffset;
 
     private int matchedPairs = 0;
 
@@ -28,6 +28,8 @@ public class MatchingGame : MonoBehaviour
         //Declares array lengths
         Slots = new GameObject[NumberOfPairs];
         Plugs = new GameObject[NumberOfPairs];
+
+        spawnOffset = new Vector3 (0, -plugPrefab.GetComponent<RectTransform>().rect.height,0);
 
         AdjustPanelHeight();
         SetSpawnPositions();
@@ -109,7 +111,7 @@ public class MatchingGame : MonoBehaviour
         {
             this.gameObject.SetActive(false);
             Debug.Log("All wires matched!");
-            //Stubbe in PuzzleManager call to complete the puzzle.
+            //Stubbed in PuzzleManager call to complete the puzzle.
             //PuzzleManager.Instance.SetPuzzleCompleted("Wires");
         }
     }

@@ -26,11 +26,11 @@ public class DirectionalLock : MonoBehaviour
 
     [Header("Puzzle UI")]
     public GameObject directionalLockPrefab;
-    public Vector3 spawnPosition;
-    public Vector3 spawnOffset;
     public Texture[] puzzleMaterials;
 
     private List<GameObject> puzzleImages = new List<GameObject>();
+    private Vector3 spawnPosition;
+    private Vector3 spawnOffset;
 
     private bool puzzleActive = false;
 
@@ -43,6 +43,9 @@ public class DirectionalLock : MonoBehaviour
         DownAction = InputSystem.actions.FindAction("Down");
         LeftAction = InputSystem.actions.FindAction("Left");
         RightAction = InputSystem.actions.FindAction("Right");
+
+        spawnPosition = new Vector3(directionalLockPrefab.GetComponent<RectTransform>().rect.width, 0, 0);
+        spawnOffset = new Vector3(directionalLockPrefab.GetComponent<RectTransform>().rect.width, 0, 0);
 
         GeneratePuzzle();
     }
@@ -157,7 +160,8 @@ public class DirectionalLock : MonoBehaviour
 
         RectTransform rectTransform = puzzleImages[i].GetComponent<RectTransform>();
 
-        rectTransform.anchoredPosition = spawnPosition + spawnOffset * i;
+        // First Spawnoffset is the spawn postion then adds a the additional offsets needed for i.
+        rectTransform.anchoredPosition = spawnOffset + spawnOffset * i;
 
         //Using key input to determine which image should be applied
         switch (input)

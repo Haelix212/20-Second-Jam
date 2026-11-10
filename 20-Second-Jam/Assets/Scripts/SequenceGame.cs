@@ -11,16 +11,18 @@ public class SequenceGame : MonoBehaviour
     [Header("Sequence Variables")]
     public int sequenceLength;
     public GameObject buttonPrefab;
-    public Vector3 spawnOffset;
-    public Vector3 secondRowOffset;
     public float lockOutTimer;
 
     private GameObject[] buttons;
     private int sequenceIndex;
     private Vector3 buttonSpawnPosition;
+    private Vector3 spawnOffset;
+    private Vector3 secondRowOffset;
 
     void Start()
     {
+        spawnOffset = new Vector3(buttonPrefab.GetComponent<RectTransform>().rect.width, 0, 0);
+        secondRowOffset = new Vector3(0, -buttonPrefab.GetComponent<RectTransform>().rect.height, 0);
         buttons = new GameObject[sequenceLength];
         GenerateSequence();
     }
