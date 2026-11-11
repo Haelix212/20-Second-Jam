@@ -4548,7 +4548,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '$$Close Call$$
+  m_text: '$$Starcrash$$
 
 '
   m_isRightToLeft: 0
