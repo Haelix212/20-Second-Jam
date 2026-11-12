@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     private Transform activeMenu;       // Used to keep back button code simple
     private Transform videoSettings;
     private Transform soundSettings;
+    private bool introPlayed = false;
     
     private TextMeshProUGUI timeText;
     
@@ -68,7 +69,16 @@ public class GameManager : MonoBehaviour
         // Load the game scene, rn is my test scene
         if (SceneManager.GetActiveScene().name != "GameScene")
         {
-            SceneManager.LoadScene("GameScene");
+            if (!introPlayed)
+            {
+                introPlayed = true;
+                SceneManager.LoadScene("Intro");
+                return;
+            }
+            else
+            {
+                SceneManager.LoadScene("GameScene");
+            }
         }
         // Reset everything including my imaginary puzzle manager that will exist eventually
         // PuzzleManager.Instance.ResetPuzzlesCompleted();
@@ -106,6 +116,7 @@ public class GameManager : MonoBehaviour
     }
     private void UpdateUI()
     {
+        if (!isGameActive) return;
         if (timeText == null) return;
         timeText.text = $"00:{timeRemaining:00}";
         if (Mathf.Round(timeRemaining) % 2 == 0) timeText.color = Color.red;
