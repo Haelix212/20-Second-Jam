@@ -33,11 +33,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 60, y: -25}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 450, y: 75}
-  m_Pivot: {x: 0.5, y: 1}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6235476585675322381
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -92,8 +92,6 @@ MonoBehaviour:
   puzzleLength: 4
   puzzleLengthIncrement: 2
   directionalLockPrefab: {fileID: 1004588222987629718, guid: 073b4484a831d4c49b6cf6e0d8a57b42, type: 3}
-  spawnPosition: {x: 50, y: 0, z: 0}
-  spawnOffset: {x: 50, y: 0, z: 0}
   puzzleMaterials:
   - {fileID: 2800000, guid: 3e319889892af964aa627e320e00bb83, type: 3}
   - {fileID: 2800000, guid: ffe9c744822fa6a439bcd22f94aa1bdc, type: 3}
