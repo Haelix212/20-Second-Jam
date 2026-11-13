@@ -48,20 +48,31 @@ public class MathGame : MonoBehaviour
 
     public void CheckAnswer()
     {
-        if (playerInput[0].ToString() == "0")
+        if(solution != 0)
         {
-            playerInput = playerInput[1].ToString();
+            if (playerInput != "" && playerInput.Length>1)
+            {
+                if (playerInput[0].ToString() == "0")
+                {
+                    playerInput = playerInput[1].ToString();
+                }
+            }
         }
-        if (solution.ToString() == playerInput)
+
+        if (playerInput != "")
         {
-            equationsCompleted++;
-            CheckForWin();
+            if (solution.ToString() == playerInput)
+            {
+                equationsCompleted++;
+                CheckForWin();
+            }
+            else
+            {
+                ClearPlayerInput();
+                GenerateEquation();
+            }
         }
-        else
-        {
-            ClearPlayerInput();
-            GenerateEquation();
-        }
+
     }
 
     private void GenerateEquation()
