@@ -11,8 +11,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Canvas timerCanvas;
     [SerializeField] private GameObject gameOverPanel;
     [SerializeField] private Canvas menuCanvas;
-    private float timeRemaining = 20f;
-     private bool isGameActive = false;
+    [Header("Game Controls")]
+    [SerializeField] private float timeRemaining = 20f;
+    //private float timeRemaining = 20f;
+    private bool isGameActive = false;
 
     private Transform menuTransform;    // Keeping serialized fields to a minimum
     private Transform settingsTransform;
@@ -54,11 +56,16 @@ public class GameManager : MonoBehaviour
     {
         
     }
+
     private void Update()
     {
         if (!isGameActive) return;
         
         timeRemaining -= Time.deltaTime;
+        if (timeRemaining <= 0)
+        {
+            GameOver();
+        }
         UpdateUI();
 
         //Debug.Log(Mathf.Round(timeRemaining) + " seconds remaining");
@@ -103,6 +110,7 @@ public class GameManager : MonoBehaviour
         isGameActive = false;
         if (timeRemaining <= 0)
         {
+            Debug.Log("You lose");
             if (gameOverPanel != null)
             {
                 gameOverPanel.SetActive(true);
@@ -111,14 +119,17 @@ public class GameManager : MonoBehaviour
         else
         {
             // Win message
+            Debug.Log("You win");
         }
         
     }
     private void UpdateUI()
     {
         if (!isGameActive) return;
+
         if (timeText == null) return;
         timeText.text = $"00:{timeRemaining:00}";
+
         if (Mathf.Round(timeRemaining) % 2 == 0) timeText.color = Color.red;
         else timeText.color = Color.yellow;
     }
