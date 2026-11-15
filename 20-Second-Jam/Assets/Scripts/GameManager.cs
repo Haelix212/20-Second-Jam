@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
+using System;
+using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,8 +15,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Canvas menuCanvas;
     [Header("Game Controls")]
     [SerializeField] private float timeRemaining = 20f;
-    //private float timeRemaining = 20f;
-    private bool isGameActive = false;
+    private float originalTime;
+    public bool isGameActive { get; private set; } = false;
+    [SerializeField] public GameOverEvent gameOverEvent;
 
     private Transform menuTransform;    // Keeping serialized fields to a minimum
     private Transform settingsTransform;
@@ -25,10 +28,7 @@ public class GameManager : MonoBehaviour
     private bool introPlayed = false;
     
     private TextMeshProUGUI timeText;
-    
-    public bool IsGameActive => isGameActive;
-
-
+    private GameObject failPanel;
 
     void Awake()
     {
@@ -42,6 +42,8 @@ public class GameManager : MonoBehaviour
         
         DontDestroyOnLoad(gameObject);
         DontDestroyOnLoad(timerCanvas.gameObject);
+
+        originalTime = timeRemaining;
 
         menuTransform = menuCanvas.transform.Find("MenuParent");
         settingsTransform = menuCanvas.transform.Find("SettingsParent");
@@ -76,6 +78,7 @@ public class GameManager : MonoBehaviour
         // Load the game scene, rn is my test scene
         if (SceneManager.GetActiveScene().name != "GameScene")
         {
+            //introPlayed = true; // Was using this for debugging
             if (!introPlayed)
             {
                 introPlayed = true;
@@ -92,9 +95,10 @@ public class GameManager : MonoBehaviour
 
         // If we have a scripted animation before playing it goes here
 
-        timeRemaining = 20.5f;
+        timeRemaining += 0.5f;
         isGameActive = true;
         timeText = timerCanvas.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
+
         
         
         // Hide gameover panel
@@ -108,21 +112,29 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         isGameActive = false;
+        gameOverEvent.TriggerEvent();
+
         if (timeRemaining <= 0)
         {
-            Debug.Log("You lose");
-            if (gameOverPanel != null)
-            {
-                gameOverPanel.SetActive(true);
+            // Disable raycasts for all the world canvases since they were interfering with the game over canvas
+            GameObject[] roots = SceneManager.GetActiveScene().GetRootGameObjects();
+            foreach (GameObject item in roots) {
+                RaycasterWorld caster = item.GetComponent<RaycasterWorld>();
+                if (caster != null) caster.enabled = false;
             }
+
+            failPanel = Instantiate(gameOverPanel);
+            failPanel.transform.Find("PlayAgainButton").GetComponent<Button>().onClick.AddListener(RestartGame);
+            failPanel.transform.Find("QuitButton").GetComponent<Button>().onClick.AddListener(ReturnMainMenu);
+            failPanel.SetActive(true);
         }
         else
         {
             // Win message
             Debug.Log("You win");
         }
-        
     }
+
     private void UpdateUI()
     {
         if (!isGameActive) return;
@@ -135,7 +147,19 @@ public class GameManager : MonoBehaviour
     }
     public void RestartGame()
     {
+        SceneManager.LoadScene("GameScene");
+        timeRemaining = originalTime; // reset clock using copied value
         StartGame();
+    }
+
+    public void ReturnMainMenu()
+    {
+        // Load the menu scene
+        if (SceneManager.GetActiveScene().name != "MainMenuScene")
+        {
+            SceneManager.LoadScene("MainMenuScene");
+            Destroy(this.gameObject);
+        }
     }
 
     public void OpenSettings()

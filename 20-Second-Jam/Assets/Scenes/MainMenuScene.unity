@@ -3936,11 +3936,11 @@ Transform:
   m_GameObject: {fileID: 868033962}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -368, y: -207, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1362900348}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &872362077
 GameObject:
@@ -4438,8 +4438,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   timerCanvas: {fileID: 1269965830}
-  gameOverPanel: {fileID: 0}
+  gameOverPanel: {fileID: 3979465155759642136, guid: 8d2175a1f103c0649aee59fcf473f7eb, type: 3}
   menuCanvas: {fileID: 1362900347}
+  timeRemaining: 20
+  gameOverEvent: {fileID: 11400000, guid: 8c6b189f2fd209e41b5ebf214c042272, type: 2}
 --- !u!4 &986150450
 Transform:
   m_ObjectHideFlags: 0
@@ -5330,7 +5332,6 @@ RectTransform:
   - {fileID: 1341956810}
   - {fileID: 290285503}
   - {fileID: 1670427475}
-  - {fileID: 868033965}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -8405,6 +8406,7 @@ SceneRoots:
   m_Roots:
   - {fileID: 410814623}
   - {fileID: 2037178508}
+  - {fileID: 868033965}
   - {fileID: 1362900348}
   - {fileID: 986150450}
   - {fileID: 413081136}
