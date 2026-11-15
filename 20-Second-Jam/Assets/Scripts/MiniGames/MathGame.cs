@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -5,6 +6,8 @@ public class MathGame : MonoBehaviour
 {
 
     public Text equationText;
+
+    public float lockoutTimer;
 
     public int NumberOfEquations;
     private int equationsCompleted;
@@ -58,6 +61,16 @@ public class MathGame : MonoBehaviour
                 }
             }
         }
+        else
+        {
+            if (playerInput != "" && playerInput.Length > 1)
+            {
+                if (playerInput[1].ToString() == "0")
+                {
+                    playerInput = playerInput[0].ToString();
+                }
+            }
+        }
 
         if (playerInput != "")
         {
@@ -68,11 +81,18 @@ public class MathGame : MonoBehaviour
             }
             else
             {
-                ClearPlayerInput();
-                GenerateEquation();
+                equationText.transform.parent.GetComponent<Image>().color = Color.red;
+                StartCoroutine(WaitAndReset());
             }
         }
+    }
 
+    private IEnumerator WaitAndReset()
+    {
+        yield return new WaitForSeconds(lockoutTimer);
+        equationText.transform.parent.GetComponent<Image>().color = Color.green;
+        ClearPlayerInput();
+        GenerateEquation(); 
     }
 
     private void GenerateEquation()

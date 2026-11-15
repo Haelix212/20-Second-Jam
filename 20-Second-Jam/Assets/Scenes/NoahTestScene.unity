@@ -391,6 +391,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2767154391631005215, guid: 3295a907f041eda4a9bc97c6340e6bfc, type: 3}
+      propertyPath: lockoutTimer
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 4910034807407246315, guid: 3295a907f041eda4a9bc97c6340e6bfc, type: 3}
       propertyPath: m_Name
       value: MathGame
