@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     private float originalTime;
     public bool isGameActive { get; private set; } = false;
     [SerializeField] public GameOverEvent gameOverEvent;
+    
 
     private Transform menuTransform;    // Keeping serialized fields to a minimum
     private Transform settingsTransform;
@@ -132,6 +133,7 @@ public class GameManager : MonoBehaviour
         {
             // Win message
             Debug.Log("You win");
+            // Some sort of jump away animation plays, might need to spin off a separate scene similar to the intro
         }
     }
 

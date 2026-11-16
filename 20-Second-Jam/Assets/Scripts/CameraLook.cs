@@ -44,6 +44,8 @@ public class CameraLook : MonoBehaviour
 
     private void Update()
     {
+        
+
         if (!isGameOver)
         {
             float mouseX = lookInput.x * mouseSensitivity;
@@ -59,8 +61,10 @@ public class CameraLook : MonoBehaviour
         }
         else
         {
-            Vector3 windowDirection = new Vector3(1f, 0f, 0f);
-            transform.rotation = Quaternion.Euler(Vector3.RotateTowards(transform.localEulerAngles, windowDirection, 1f, 0f));
+            Vector3 windowDirection = new Vector3(0f, 0.4f, 1f);
+            Debug.DrawRay(transform.position, windowDirection, Color.red);
+            Vector3 newDirection = Vector3.RotateTowards(transform.forward, windowDirection, 1f * Time.deltaTime, 0f);
+            transform.rotation = Quaternion.LookRotation(newDirection);
         }
 
     }
@@ -69,6 +73,7 @@ public class CameraLook : MonoBehaviour
     {
         isGameOver = true;
         UnlockCursor();
+
         Debug.Log("press buttons now");
     }
 }

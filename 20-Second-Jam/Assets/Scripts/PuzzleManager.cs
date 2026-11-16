@@ -8,6 +8,7 @@ public class PuzzleManager : MonoBehaviour
     [SerializeField] private Dictionary<string, GameObject> puzzleDictionary; // Dictionary to map puzzle names to their game objects
     [SerializeField] private int numberOfPuzzlesToActivate = 2; // Number of puzzles to activate at the start of the game
     [SerializeField] private List<GameObject> activePuzzles; // List of currently active puzzles
+    [SerializeField] public PuzzlesCompleteEvent puzzlesCompleteEvent; // Event that triggers when all puzzles are complete
 
     void Start()
     {
@@ -45,9 +46,10 @@ public class PuzzleManager : MonoBehaviour
 
     void CheckWinCondition()
     {
-        if (activePuzzles.Count == 0)
+        if (activePuzzles.Count <= 0)
         {
             Debug.Log("All puzzles completed");
+            puzzlesCompleteEvent.TriggerEvent();
         }
     }
 

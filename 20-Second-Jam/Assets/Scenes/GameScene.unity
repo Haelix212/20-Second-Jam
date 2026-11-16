@@ -821,6 +821,7 @@ MonoBehaviour:
     value: {fileID: 4753882}
   numberOfPuzzlesToActivate: 2
   activePuzzles: []
+  puzzlesCompleteEvent: {fileID: 11400000, guid: 674005dbc213361438e4fe1a677f0a1b, type: 2}
 --- !u!4 &210748560
 Transform:
   m_ObjectHideFlags: 0
