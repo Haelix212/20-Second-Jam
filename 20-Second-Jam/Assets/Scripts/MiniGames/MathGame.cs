@@ -149,10 +149,10 @@ public class MathGame : MonoBehaviour
     {
         if (equationsCompleted >= NumberOfEquations)
         {
-            //Stubbing in PuzzleManager call for puzzle complete.
-            //PuzzleManager.Instance.SetPuzzleCompleted("MathGame");
             equationText.text = "WINNER";
             DisableButtons();
+            //Stubbing in PuzzleManager call for puzzle complete.
+            PuzzleManager.Instance.SetPuzzleCompleted("MathGame");
         }
         else
         {

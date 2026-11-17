@@ -109,9 +109,8 @@ public class DirectionalLock : MonoBehaviour
 
                     if (CheckWinCondition())
                     {
-                        //Stubbing in PuzzleManager call for puzzle complete.
-                        //PuzzleManager.Instance.SetPuzzleCompleted("Directional Lock");
                         print("Directional Lock completed");
+                        PuzzleManager.Instance.SetPuzzleCompleted("Directional Lock");
                     }
                     else
                     {

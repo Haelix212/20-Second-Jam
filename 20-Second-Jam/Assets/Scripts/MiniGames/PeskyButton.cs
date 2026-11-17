@@ -108,7 +108,7 @@ public class PeskyButton : MonoBehaviour
             buttonComponent.interactable = false;
             SetColor();
             //Stubbing in PuzzleManager call for puzzle complete.
-            //PuzzleManager.Instance.SetPuzzleCompleted("GluttonousButton");
+            PuzzleManager.Instance.SetPuzzleCompleted("GluttonousButton");
             return true;
         }
         return false;
