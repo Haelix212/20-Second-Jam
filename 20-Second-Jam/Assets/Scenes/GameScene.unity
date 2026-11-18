@@ -1135,6 +1135,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fee91185959042f185a5ab3eccbe7d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraLook
+  zoomSpeed: 5
+  zoomFOV: 30
+  normalFOV: 75
 --- !u!114 &330585549
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1161,7 +1164,7 @@ MonoBehaviour:
       m_Calls: []
   m_ActionEvents: []
   m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
+  m_DefaultControlScheme: Keyboard&Mouse
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 330585545}

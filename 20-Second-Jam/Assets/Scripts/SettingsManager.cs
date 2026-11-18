@@ -11,6 +11,7 @@ public class SettingsManager : MonoBehaviour
     private Slider sfxSlider;
     private Toggle cameraInvert;
     private Slider mouseSenseSlider;
+    private Slider zoomScalarSlider;
     private Slider screenShakeSlider;
 
     public AudioMixer mixer;
@@ -26,6 +27,7 @@ public class SettingsManager : MonoBehaviour
         sfxSlider = soundSettings.Find("SFXVolumeSlider").GetComponent<Slider>();
 
         mouseSenseSlider = videoSettings.Find("MouseSenseSlider").GetComponent<Slider>();
+        zoomScalarSlider = videoSettings.Find("ZoomScalarSlider").GetComponent<Slider>();
         screenShakeSlider = videoSettings.Find("ScreenShakeSlider").GetComponent<Slider>();
         cameraInvert = videoSettings.Find("CameraInvert").GetComponent<Toggle>();
 
@@ -60,6 +62,11 @@ public class SettingsManager : MonoBehaviour
         if (PlayerPrefs.HasKey("MouseSense"))
         {
             SetMouseSlider();
+        }
+
+        if (PlayerPrefs.HasKey("ZoomScalar"))
+        {
+            SetZoomSlider();
         }
 
         // Initalize screen shake setting
@@ -107,6 +114,16 @@ public class SettingsManager : MonoBehaviour
     public void UpdateMouseSlider()
     {
         PlayerPrefs.SetFloat("MouseSense", mouseSenseSlider.value);
+    }
+
+    private void SetZoomSlider()
+    {
+        zoomScalarSlider.value = PlayerPrefs.GetFloat("ZoomScalar");
+    }
+
+    public void UpdateZoomSlider()
+    {
+        PlayerPrefs.SetFloat("ZoomScalar", zoomScalarSlider.value);
     }
 
     private void SetShakeSlider()

@@ -2,8 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class CameraLook : MonoBehaviour
-{
-
+{    
     private Vector2 lookInput;
     private float cameraVectorX;
     private float cameraVectorY;
@@ -12,13 +11,22 @@ public class CameraLook : MonoBehaviour
     private float mouseSensitivity = 0.1f; // float from 0.01 to 1.0
     private bool isGameOver;
 
+    [Header("Camera Zoom Controls")]
+    [SerializeField] private float zoomSpeed = 5f;
+    [SerializeField] private float zoomFOV = 30f;
+    [SerializeField] private float normalFOV = 75f;
+    private bool zoomInput;
+    private float zoomSensitivityScalar = 0.5f; // float from 0.01 to 1.0
+
     void Start()
     {
         LockCursor();
         //Cursor.visible = false;
         isGameOver = false;
+        zoomInput = false;
         if (PlayerPrefs.HasKey("CameraInvert")) cameraInvert = PlayerPrefs.GetInt("CameraInvert");
         if (PlayerPrefs.HasKey("MouseSense")) mouseSensitivity = PlayerPrefs.GetFloat("MouseSense");
+        if (PlayerPrefs.HasKey("ZoomScalar")) zoomSensitivityScalar = PlayerPrefs.GetFloat("ZoomScalar");
 
     }
     public void UnlockCursor()
@@ -42,14 +50,20 @@ public class CameraLook : MonoBehaviour
         lookInput = value.Get<Vector2>();
     }
 
+    public void OnZoom(InputValue value)
+    {
+        zoomInput = value.isPressed;
+    }
+
     private void Update()
     {
-        
+        float newFOV = this.gameObject.GetComponent<Camera>().fieldOfView + (zoomInput ? -zoomSpeed : zoomSpeed);
+        this.gameObject.GetComponent<Camera>().fieldOfView = Mathf.Clamp(newFOV, zoomFOV, normalFOV);
 
         if (!isGameOver)
         {
-            float mouseX = lookInput.x * mouseSensitivity;
-            float mouseY = lookInput.y * mouseSensitivity;
+            float mouseX = lookInput.x * mouseSensitivity * (zoomInput ? zoomSensitivityScalar : 1f);
+            float mouseY = lookInput.y * mouseSensitivity * (zoomInput ? zoomSensitivityScalar : 1f);
 
             cameraVectorY += mouseX;
             cameraVectorX -= (mouseY * cameraInvert);
@@ -68,6 +82,7 @@ public class CameraLook : MonoBehaviour
         }
 
     }
+
 
     public void GameOverUpdate()
     {
