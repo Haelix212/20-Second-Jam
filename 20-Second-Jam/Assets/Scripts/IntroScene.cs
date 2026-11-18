@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.InputSystem;
 using System.ComponentModel;
+using System;
 
 public class IntroScene : MonoBehaviour
 {
@@ -12,8 +13,12 @@ public class IntroScene : MonoBehaviour
     public TMP_Text failText;
     public TMP_Text nameText;
     public GameObject canvas;
-
+    public GameObject flashPanel;
+    public ExitWarpEvent exitWarpEvent;
+    public Camera warpCamera;
     public float typeSpeed = 0.05f;
+    public bool autoPlay = false;
+    
 
     private void Start()
     {
@@ -30,92 +35,67 @@ public class IntroScene : MonoBehaviour
 
     IEnumerator PlayIntroSequenceCoroutine()
     {
+        // Turned this into variables so we can make bulk edits quicker
+        string shipAI = "NAV PC";
+        string control = "SHIP CORE";
+
         // Show Orbit exterior
-        SetCharacterName(nameText, "CONTROL");
+        SetCharacterName(nameText, control);
         ClearDialogue(dialogueText);
-        yield return TypeDialogue(dialogueText, "SS Frontier, this is Mission Control.");
+        yield return TypeDialogue(dialogueText, "We're approaching the target system now.");
         yield return WaitForPlayerInput();
         ClearDialogue(dialogueText);
 
-        yield return TypeDialogue(dialogueText, "You are clear to jump to FTL.");
+        yield return TypeDialogue(dialogueText, "Prepare for decceleration.");
         yield return WaitForPlayerInput();
         ClearDialogue(dialogueText);
 
 
-
-        SetCharacterName(nameText, "SHIP AI");
-
-        yield return TypeDialogue(dialogueText, "Rodger that, Control. We are initiating the jump sequence.");
+        SetCharacterName(nameText, shipAI);
+        yield return TypeDialogue(dialogueText, "WARNING, EXPERIENCING UNEXPECTED GRAVITATIONAL FORCES");
         yield return WaitForPlayerInput();
         ClearDialogue(dialogueText);
         
-        yield return TypeDialogue(dialogueText, "Jump drive charged. Commencing countdown.");
-        yield return WaitForPlayerInput();
-        ClearDialogue(dialogueText);
 
-        // Fade screen to load into player view
-        yield return TypeDialogue(dialogueText, "Jump in 3... ");
         yield return new WaitForSeconds(0.5f);
-        yield return TypeDialogue(dialogueText, "2... ");
+        yield return TypeDialogue(dialogueText, "Exiting Interstellar Warp.");
+        yield return WaitForPlayerInput();
+        ClearDialogue(dialogueText);
+        canvas.SetActive(false);     
+
         yield return new WaitForSeconds(0.5f);
 
-        // Turn on partical effects for jump
-        yield return TypeDialogue(dialogueText, "1...");
-        yield return WaitForPlayerInput();
-        ClearDialogue(dialogueText);
-        yield return new WaitForSeconds(0.5f);
-        canvas.SetActive(false);
-
-        
-        yield return new WaitForSeconds(5.0f);
-        // Trigger flashing lights with warning and turbulance
-        canvas.SetActive(true);
-        yield return new WaitForSeconds(0.5f);
-        yield return TypeDialogue(dialogueText, "Something is pulling at our wake.");
-        yield return WaitForPlayerInput();
-        ClearDialogue(dialogueText);
-
-        yield return TypeDialogue(dialogueText, "Control, do you read us?");
-        yield return WaitForPlayerInput();
-        ClearDialogue(dialogueText);
-
-
-
-        SetCharacterName(nameText, "CONTROL");
-
-        yield return TypeDialogue(dialogueText, "Captian? You are breaking up.");
-        yield return WaitForPlayerInput();
-        ClearDialogue(dialogueText);
-
-
-
-        SetCharacterName(nameText, "SHIP AI");
-
-        yield return TypeDialogue(dialogueText, "Jump drive failed. We are being pulled out of hyperspace.");
-        yield return WaitForPlayerInput();
-        ClearDialogue(dialogueText);
-        yield return new WaitForSeconds(0.5f);
-        canvas.SetActive(false);
         // Screen flashes to white before fading back in
-        yield return new WaitForSeconds(5.0f);
+        flashPanel.SetActive(true);
+        yield return new WaitForSeconds(0.75f); // Delay to hide pop in of new objects
+        canvas.SetActive(false);
+        ExitWarp();
+        warpCamera.GetComponent<Animation>().Play(); // Move camera to see star better
+        yield return new WaitForSeconds(2.0f);
         // We see the sun for the first time and it is close
 
         canvas.SetActive(true);
         yield return new WaitForSeconds(0.5f);
 
-        yield return TypeDialogue(dialogueText, "It seems we are stuck in a gravity well.");
+        SetCharacterName(nameText, control);
+        yield return TypeDialogue(dialogueText, "WARNING, EXTREME HEAT EXPOSURE IMMINENT");
         yield return WaitForPlayerInput();
         ClearDialogue(dialogueText);
 
-        yield return TypeDialogue(dialogueText, "You will need to jump to a safe location.");
+        SetCharacterName(nameText, shipAI);
+        yield return TypeDialogue(dialogueText, "That is distinctly not our destination. We need to leave immediately.");
         yield return WaitForPlayerInput();
         ClearDialogue(dialogueText);
 
-        yield return TypeDialogue(dialogueText, "I would estimate you have twenty seconds to re-instate the needed systems to power the jump drive before full meltdown.");
+        // Switch to first person camera inside the cockpit
+        // Use a screen flash again, maybe different colour, to mask loading of cockpit group and unloading ship mesh
+
+        yield return TypeDialogue(dialogueText, "Prepare for an emergency jump.");
         yield return WaitForPlayerInput();
         ClearDialogue(dialogueText);
 
-        yield return TypeDialogue(dialogueText, "Good luck, Captain.");
+        SetCharacterName(nameText, control);
+        yield return TypeDialogue(dialogueText, "T-MINUS 20 SECONDS UNTIL IRRECOVERABLE SYSTEM DAMAGE");
         yield return WaitForPlayerInput();
         yield return new WaitForSeconds(0.5f);
         dialogueText.gameObject.SetActive(false);
@@ -136,7 +116,7 @@ public class IntroScene : MonoBehaviour
 
     IEnumerator WaitForPlayerInput()
     {
-        while (true)
+        while (!autoPlay)
     {
         bool spacePressed = Keyboard.current != null && Keyboard.current.spaceKey.wasPressedThisFrame;
         bool mouseClicked = Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame;
@@ -191,5 +171,15 @@ public class IntroScene : MonoBehaviour
         failText.text = "";
         StartCoroutine(PlayFailSequenceCoroutine());
         // Wait for player to pick yes or no, either of which will change scene
+    }
+
+    public void ExitWarp()
+    {
+        // Stop warp VFX
+        // Stop ship animation
+        // Enable star
+        // Move camera so star is visible over ship's shoulder
+        exitWarpEvent.TriggerEvent();
+        
     }
 }

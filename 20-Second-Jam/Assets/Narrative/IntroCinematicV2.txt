@@ -1,0 +1,106 @@
+Intro Cinematic Dialogue
+version 2.0
+
+Characters: NAV PC, SHIP CORE
+
+Start:
+        * fade in to exterior camera while in warp *
+NAV PC
+    "We're approaching the target system now."
+    "Prepare for decceleration."
+
+SHIP CORE
+    "WARNING, EXPERIENCING UNEXPECTED GRAVITATIONAL FORCES"
+
+NAV PC
+    "Exiting Interstellar Warp."
+        * white flash obscures camera while we load star and accompanying lights *
+        * warp and engine vfx shut off *
+        * camera pans to put stopped ship and star in frame *
+
+SHIP CORE
+    "WARNING, EXTREME HEAT EXPOSURE IMMINENT"
+
+NAV PC
+    "That is distinctly not our destination, we need to leave immediately."
+        * switch camera to inside the cockpit *
+    "Prepare for an emergency jump."
+
+SHIP CORE
+    "T-MINUS 20 SECONDS UNTIL IRRECOVERABLE SYSTEM DAMAGE"
+        * transfer control to the player *
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+Hooked up version for use in IntroScene.cs:
+
+IEnumerator PlayIntroSequenceCoroutine()
+    {
+        // Turned this into variables so we can make bulk edits quicker
+        string shipAI = "NAV PC";
+        string control = "SHIP CORE";
+
+        // Show Orbit exterior
+        SetCharacterName(nameText, control);
+        ClearDialogue(dialogueText);
+        yield return TypeDialogue(dialogueText, "We're approaching the target system now.");
+        yield return WaitForPlayerInput();
+        ClearDialogue(dialogueText);
+
+        yield return TypeDialogue(dialogueText, "Prepare for decceleration.");
+        yield return WaitForPlayerInput();
+        ClearDialogue(dialogueText);
+
+
+        SetCharacterName(nameText, shipAI);
+        yield return TypeDialogue(dialogueText, "WARNING, EXPERIENCING UNEXPECTED GRAVITATIONAL FORCES");
+        yield return WaitForPlayerInput();
+        ClearDialogue(dialogueText);
+        
+
+        yield return new WaitForSeconds(0.5f);
+        yield return TypeDialogue(dialogueText, "Exiting Interstellar Warp.");
+        yield return WaitForPlayerInput();
+        ClearDialogue(dialogueText);
+        canvas.SetActive(false);     
+
+        yield return new WaitForSeconds(0.5f);
+
+        // Screen flashes to white before fading back in
+        flashPanel.SetActive(true);
+        yield return new WaitForSeconds(0.75f); // Delay to hide pop in of new objects
+        canvas.SetActive(false);
+        ExitWarp();
+        warpCamera.GetComponent<Animation>().Play(); // Move camera to see star better
+        yield return new WaitForSeconds(4.0f);
+        // We see the sun for the first time and it is close
+
+        canvas.SetActive(true);
+        yield return new WaitForSeconds(0.5f);
+
+        SetCharacterName(nameText, control);
+        yield return TypeDialogue(dialogueText, "WARNING, EXTREME HEAT EXPOSURE IMMINENT");
+        yield return WaitForPlayerInput();
+        ClearDialogue(dialogueText);
+
+        SetCharacterName(nameText, shipAI);
+        yield return TypeDialogue(dialogueText, "That is distinctly not our destination, we need to leave immediately.");
+        yield return WaitForPlayerInput();
+        ClearDialogue(dialogueText);
+
+        // Switch to first person camera inside the cockpit
+        // Use a screen flash again, maybe different colour, to mask loading of cockpit group and unloading ship mesh
+
+        yield return TypeDialogue(dialogueText, "Prepare for an emergency jump.");
+        yield return WaitForPlayerInput();
+        ClearDialogue(dialogueText);
+
+        SetCharacterName(nameText, control);
+        yield return TypeDialogue(dialogueText, "T-MINUS 20 SECONDS UNTIL IRRECOVERABLE SYSTEM DAMAGE");
+        yield return WaitForPlayerInput();
+        yield return new WaitForSeconds(0.5f);
+        dialogueText.gameObject.SetActive(false);
+        GameManager.Instance.StartGame();
+
+    }

@@ -1,0 +1,144 @@
+Intro Cinematic Dialogue
+version 1.0
+
+Characters: CONTROL, SHIP AI
+
+Start:
+        * camera shows ship exterior *
+CONTROL
+    "SS Frontier, this is Mission Control."
+    "You are clear to jump to FTL."
+
+SHIP AI
+    "Affirmative, Control. We are initiating the jump sequence."
+    "Jump drive charged. Commencing countdown."
+        * camera shifts to player view inside the cockpit *
+    "Jump in 3... "
+    "2... "
+        * jump particles start to appear outside the ship *
+    "1..."
+        * full jump VFX *
+
+        * turbulence and alarms start while in flight *
+    "Something is pulling at our wake."
+    "Control, do you read us?"
+
+CONTROL
+    "Captain? You are breaking up."
+
+SHIP AI
+    "Jump drive failed. We are being pulled out of hyperspace."
+        * screen flashes to white before fading back in *
+        * move camera to see star better *
+        * we see the star for the first time and it is close, pause for dramatic effect*
+    "It seems we are stuck in a gravity well."
+    "You will need to jump to a safe location."
+    "I would estimate you have twenty seconds to re-instate the needed systems to power the jump drive before full meltdown."
+    "Good luck, Captain."
+        * transfer control to the player *
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+Hooked up version for use in IntroScene.cs:
+
+IEnumerator PlayIntroSequenceCoroutine()
+    {
+        // Turned this into variables so we can make bulk edits quicker
+        string shipAI = "SHIP AI";
+        string control = "CONTROL";
+
+        // Show Orbit exterior
+        SetCharacterName(nameText, control);
+        ClearDialogue(dialogueText);
+        yield return TypeDialogue(dialogueText, "SS Frontier, this is Mission Control.");
+        yield return WaitForPlayerInput();
+        ClearDialogue(dialogueText);
+
+        yield return TypeDialogue(dialogueText, "You are clear to jump to FTL.");
+        yield return WaitForPlayerInput();
+        ClearDialogue(dialogueText);
+
+
+        SetCharacterName(nameText, shipAI);
+        yield return TypeDialogue(dialogueText, "Affirmative, Control. We are initiating the jump sequence.");
+        yield return WaitForPlayerInput();
+        ClearDialogue(dialogueText);
+        
+        yield return TypeDialogue(dialogueText, "Jump drive charged. Commencing countdown.");
+        yield return WaitForPlayerInput();
+        ClearDialogue(dialogueText);
+
+        // Fade screen to load into player view
+        yield return TypeDialogue(dialogueText, "Jump in 3... ");
+        yield return new WaitForSeconds(0.5f);
+        yield return TypeDialogue(dialogueText, "2... ");
+        yield return new WaitForSeconds(0.5f);
+
+        // Turn on partical effects for jump
+        yield return TypeDialogue(dialogueText, "1...");
+        yield return WaitForPlayerInput();
+        ClearDialogue(dialogueText);
+        yield return new WaitForSeconds(0.5f);
+        canvas.SetActive(false);
+
+        
+        yield return new WaitForSeconds(5.0f);
+        // Trigger flashing lights with warning and turbulance
+        canvas.SetActive(true);
+        yield return new WaitForSeconds(0.5f);
+        yield return TypeDialogue(dialogueText, "Something is pulling at our wake.");
+        yield return WaitForPlayerInput();
+        ClearDialogue(dialogueText);
+
+        yield return TypeDialogue(dialogueText, "Control, do you read us?");
+        yield return WaitForPlayerInput();
+        ClearDialogue(dialogueText);
+
+
+
+        SetCharacterName(nameText, control);
+
+        yield return TypeDialogue(dialogueText, "Captain? You are breaking up.");
+        yield return WaitForPlayerInput();
+        ClearDialogue(dialogueText);
+
+
+
+        SetCharacterName(nameText, shipAI);
+
+        yield return TypeDialogue(dialogueText, "Jump drive failed. We are being pulled out of hyperspace.");
+        yield return WaitForPlayerInput();
+        ClearDialogue(dialogueText);
+
+        // Screen flashes to white before fading back in
+        flashPanel.SetActive(true);
+        yield return new WaitForSeconds(0.75f); // Delay to hide pop in of new objects
+        canvas.SetActive(false);
+        ExitWarp();
+        warpCamera.GetComponent<Animation>().Play(); // Move camera to see star better
+        yield return new WaitForSeconds(4.0f);
+        // We see the sun for the first time and it is close
+
+        canvas.SetActive(true);
+        yield return new WaitForSeconds(0.5f);
+
+        yield return TypeDialogue(dialogueText, "It seems we are stuck in a gravity well.");
+        yield return WaitForPlayerInput();
+        ClearDialogue(dialogueText);
+
+        yield return TypeDialogue(dialogueText, "You will need to jump to a safe location.");
+        yield return WaitForPlayerInput();
+        ClearDialogue(dialogueText);
+
+        yield return TypeDialogue(dialogueText, "I would estimate you have twenty seconds to re-instate the needed systems to power the jump drive before full meltdown.");
+        yield return WaitForPlayerInput();
+        ClearDialogue(dialogueText);
+
+        yield return TypeDialogue(dialogueText, "Good luck, Captain.");
+        yield return WaitForPlayerInput();
+        yield return new WaitForSeconds(0.5f);
+        dialogueText.gameObject.SetActive(false);
+        GameManager.Instance.StartGame();
+
+    }
