@@ -19,7 +19,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
    
     public GameObject slot;
 
-    public float maxRaycastDistance = 5f;
+    public float maxRaycastDistance = 10f;
     public float wireProximityCheck = 0.2f;
 
     private GameObject currentObject;
