@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+// using System.ComponentModel.DataAnnotations;
 public class PuzzleManager : MonoBehaviour
 {
     public static PuzzleManager Instance { get; private set; }
@@ -10,9 +11,10 @@ public class PuzzleManager : MonoBehaviour
     [SerializeField] private List<GameObject> activePuzzles; // List of currently active puzzles
     [SerializeField] public PuzzlesCompleteEvent puzzlesCompleteEvent; // Event that triggers when all puzzles are complete
     [SerializeField] private GameObject progressBar;
+    [SerializeField] private Material red;
+    [SerializeField] private Material green;
     private int completedPuzzles = 0;
-    private List<Light> progressLights = new List<Light>();
-    private List<Renderer> progressMeshes = new List<Renderer>();
+    private List<Renderer> progressLights = new List<Renderer>();
 
 
     void Start()
@@ -44,15 +46,20 @@ public class PuzzleManager : MonoBehaviour
     {
         foreach (Transform child in progressBar.transform)
         {
-            Light pointLight = child.GetComponentInChildren<Light>();
-            Renderer mesh = child.GetComponentInChildren<Renderer>();
-
-            if (pointLight != null && mesh != null)
+            if (activePuzzles.Count == progressLights.Count)
             {
-                progressLights.Add(pointLight);
-                progressMeshes.Add(mesh);
+                break;
+            }
+            child.gameObject.SetActive(true);
+            // Light pointLight = child.GetComponentInChildren<Light>();
+            Renderer[] renderers = child.GetComponentsInChildren<Renderer>();
+            Renderer mesh = renderers.Length > 1 ? renderers[1] : null;
 
-                pointLight.color = Color.red;
+
+            if (mesh != null)
+            {
+                progressLights.Add(mesh);
+                mesh.material = red;
             }
         }
     }
@@ -68,8 +75,8 @@ public class PuzzleManager : MonoBehaviour
     {
         for (int i = 0; i < progressLights.Count; i++)
         {
-            progressLights[i].color =
-                i < completedPuzzles ? Color.green : Color.red;
+            progressLights[i].material =
+                i < completedPuzzles ? green : red;
         }
     }
 
