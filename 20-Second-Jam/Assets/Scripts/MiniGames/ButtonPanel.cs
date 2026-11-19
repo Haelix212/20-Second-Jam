@@ -95,4 +95,22 @@ public class ButtonPanel : MonoBehaviour
             Buttons[button].GetComponent<Button>().interactable = true;
         }
     }
+
+    private bool IsThereADupe(int[] numArray)
+    {
+        for (int i = 0; i < numArray.Length;i++)
+        {
+           int valueToCheck = numArray[i];
+           for (int n = 0; n<numArray.Length; n++)
+           {
+                if (valueToCheck == numArray[n] && i != n)
+                {
+                    print(i);
+                    print(n);
+                    return true;
+                }
+           }
+        }
+        return false;
+    }
 }
