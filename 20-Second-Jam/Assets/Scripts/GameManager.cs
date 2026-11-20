@@ -83,6 +83,7 @@ public class GameManager : MonoBehaviour
             if (!introPlayed)
             {
                 introPlayed = true;
+                timerCanvas.gameObject.SetActive(false);
                 SceneManager.LoadScene("Intro");
                 return;
             }
@@ -109,6 +110,7 @@ public class GameManager : MonoBehaviour
         }
         UpdateUI();
         timeText.gameObject.SetActive(true);
+        timerCanvas.gameObject.SetActive(true);
     }
     public void GameOver()
     {
@@ -132,7 +134,8 @@ public class GameManager : MonoBehaviour
         else
         {
             // Win message
-            Debug.Log("You win");
+            // Debug.Log("You win");
+            timerCanvas.gameObject.SetActive(false);
             SceneManager.LoadScene("Outro");
             // Some sort of jump away animation plays, might need to spin off a separate scene similar to the intro
         }
@@ -161,6 +164,7 @@ public class GameManager : MonoBehaviour
         if (SceneManager.GetActiveScene().name != "MainMenuScene")
         {
             SceneManager.LoadScene("MainMenuScene");
+            if (timerCanvas != null) Destroy(timerCanvas.gameObject);
             Destroy(this.gameObject);
         }
     }

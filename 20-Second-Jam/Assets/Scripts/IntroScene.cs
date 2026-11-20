@@ -21,6 +21,7 @@ public class IntroScene : MonoBehaviour
     [Header("Outro Variables")]
     public GameObject shipModel;
     public GameObject starFlash;
+    private GameObject flash;
 
     [Header("General Variables")]
     public GameObject flashPanel;
@@ -138,11 +139,7 @@ public class IntroScene : MonoBehaviour
         if (shockwave != null) shockwave.Play();
 
         yield return new WaitForSeconds(0.5f);
-        if (starFlash != null) 
-        {
-            GameObject flash = Instantiate(starFlash,shipModel.transform.position, Quaternion.LookRotation(Camera.main.transform.position, Vector3.up));
-            flash.SetActive(true);
-        }
+        if (starFlash != null) starFlash.SetActive(true);
         MeshRenderer[] shipPieces = shipModel.GetComponentsInChildren<MeshRenderer>();
         foreach (MeshRenderer piece in shipPieces)
         {
@@ -152,24 +149,28 @@ public class IntroScene : MonoBehaviour
         shipModel.SetActive(false);
 
         yield return new WaitForSeconds(2f);
+        if (starFlash != null) starFlash.SetActive(false);
         Transform blackScreen = this.transform.Find("BlackScreen");
         if (blackScreen != null) blackScreen.gameObject.SetActive(true);
     
         yield return new WaitForSeconds(5f);
-        Button againButton = this.transform.Find("PlayAgainButton").GetComponent<Button>(); // This is popping a null reference exception and I don't know why, but everything after it also works... Is tomorrow problem
-        if (againButton != null) 
+        Transform again = this.transform.Find("PlayAgainButton");
+        if (again != null) 
         {
+            Button againButton = again.GetComponent<Button>();
             againButton.onClick.RemoveAllListeners();
             againButton.onClick.AddListener(delegate { GameManager.Instance.RestartGame(); } );
             againButton.gameObject.SetActive(true);
         }
-        Button quitButton = this.transform.Find("QuitButton").GetComponent<Button>();
-        if (quitButton != null) 
+        Transform quit = this.transform.Find("QuitButton");
+        if (quit != null) 
         {
+            Button quitButton = quit.GetComponent<Button>();
             quitButton.onClick.RemoveAllListeners();
             quitButton.onClick.AddListener(delegate { GameManager.Instance.ReturnMainMenu(); } );
             quitButton.gameObject.SetActive(true);
         }
+        
     }
 
     IEnumerator WaitForPlayerInput()
