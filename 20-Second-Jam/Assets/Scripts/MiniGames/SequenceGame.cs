@@ -96,13 +96,13 @@ public class SequenceGame : MonoBehaviour
             if (buttonText.text == sequenceIndex.ToString())
             {
                 clickedButton.GetComponent<UnityEngine.UI.Button>().interactable = false;
-                clickedButton.GetComponent<UnityEngine.UI.Image>().color = Color.green;
+                clickedButton.GetComponentInChildren<Text>().color = Color.green;
                 sequenceIndex++;
                 CheckForWin();
             }
             else
             {
-                clickedButton.GetComponent<UnityEngine.UI.Image>().color = Color.red;
+                clickedButton.GetComponentInChildren<Text>().color = Color.red;
                 foreach(GameObject button in buttons)
                 {
                     button.GetComponent<UnityEngine.UI.Button>().interactable = false;
@@ -118,7 +118,7 @@ public class SequenceGame : MonoBehaviour
         sequenceIndex = 0;
         foreach (GameObject button in buttons)
         {
-            button.GetComponent<UnityEngine.UI.Image>().color = Color.white;
+            button.GetComponentInChildren<Text>().color = Color.black;
             button.GetComponent<UnityEngine.UI.Button>().interactable = true;
         }
     }
