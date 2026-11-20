@@ -5,16 +5,25 @@ using TMPro;
 using UnityEngine.InputSystem;
 using System.ComponentModel;
 using System;
+using UnityEngine.AI;
 
 public class IntroScene : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    [Header("Intro Variables")]
     public TMP_Text dialogueText;
-    public TMP_Text failText;
     public TMP_Text nameText;
     public GameObject canvas;
-    public GameObject flashPanel;
     public ExitWarpEvent exitWarpEvent;
+
+    [Header("Fail Variables")]
+    public TMP_Text failText;
+
+    [Header("Outro Variables")]
+    public GameObject shipModel;
+    public GameObject starFlash;
+
+    [Header("General Variables")]
+    public GameObject flashPanel;
     public Camera warpCamera;
     public float typeSpeed = 0.05f;
     public bool autoPlay = false;
@@ -30,6 +39,11 @@ public class IntroScene : MonoBehaviour
         if (failText != null)
         {
             PlayFailSequence();
+        }
+
+        if (shipModel != null)
+        {
+            PlayOutroSequence();
         }
     }
 
@@ -114,6 +128,50 @@ public class IntroScene : MonoBehaviour
         quitButton.SetActive(true);
     }
 
+    IEnumerator PlayOutroSequenceCoroutine()
+    {
+        // Ship movement and camera pan animations trigger on scene start
+        ParticleSystem shockwave = shipModel.transform.Find("ShockwaveVFX").GetComponent<ParticleSystem>();
+        GameObject engine = shipModel.transform.Find("EngineVFX").gameObject;
+        yield return new WaitForSeconds(3.25f);
+        if (engine != null) engine.SetActive(true);
+        if (shockwave != null) shockwave.Play();
+
+        yield return new WaitForSeconds(0.5f);
+        if (starFlash != null) 
+        {
+            GameObject flash = Instantiate(starFlash,shipModel.transform.position, Quaternion.LookRotation(Camera.main.transform.position, Vector3.up));
+            flash.SetActive(true);
+        }
+        MeshRenderer[] shipPieces = shipModel.GetComponentsInChildren<MeshRenderer>();
+        foreach (MeshRenderer piece in shipPieces)
+        {
+            piece.gameObject.SetActive(false);
+        }
+        yield return new WaitForSeconds(0.5f);
+        shipModel.SetActive(false);
+
+        yield return new WaitForSeconds(2f);
+        Transform blackScreen = this.transform.Find("BlackScreen");
+        if (blackScreen != null) blackScreen.gameObject.SetActive(true);
+    
+        yield return new WaitForSeconds(5f);
+        Button againButton = this.transform.Find("PlayAgainButton").GetComponent<Button>(); // This is popping a null reference exception and I don't know why, but everything after it also works... Is tomorrow problem
+        if (againButton != null) 
+        {
+            againButton.onClick.RemoveAllListeners();
+            againButton.onClick.AddListener(delegate { GameManager.Instance.RestartGame(); } );
+            againButton.gameObject.SetActive(true);
+        }
+        Button quitButton = this.transform.Find("QuitButton").GetComponent<Button>();
+        if (quitButton != null) 
+        {
+            quitButton.onClick.RemoveAllListeners();
+            quitButton.onClick.AddListener(delegate { GameManager.Instance.ReturnMainMenu(); } );
+            quitButton.gameObject.SetActive(true);
+        }
+    }
+
     IEnumerator WaitForPlayerInput()
     {
         while (!autoPlay)
@@ -171,6 +229,11 @@ public class IntroScene : MonoBehaviour
         failText.text = "";
         StartCoroutine(PlayFailSequenceCoroutine());
         // Wait for player to pick yes or no, either of which will change scene
+    }
+
+    public void PlayOutroSequence()
+    {
+        StartCoroutine(PlayOutroSequenceCoroutine());
     }
 
     public void ExitWarp()

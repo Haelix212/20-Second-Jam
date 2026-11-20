@@ -133,6 +133,7 @@ public class GameManager : MonoBehaviour
         {
             // Win message
             Debug.Log("You win");
+            SceneManager.LoadScene("Outro");
             // Some sort of jump away animation plays, might need to spin off a separate scene similar to the intro
         }
     }
