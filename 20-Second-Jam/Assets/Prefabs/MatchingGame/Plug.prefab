@@ -107,7 +107,7 @@ MonoBehaviour:
   wireProximityCheck: 0.2
   ReturnToLastPositionOnFail: 0
   ReturnToOriginalPositionOnFail: 0
-  UIInGameWorldSpace: 0
+  UIInGameWorldSpace: 1
 --- !u!114 &2609102182187722084
 MonoBehaviour:
   m_ObjectHideFlags: 0

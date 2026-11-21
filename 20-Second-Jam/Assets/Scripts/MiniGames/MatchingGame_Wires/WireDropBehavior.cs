@@ -13,7 +13,7 @@ public class WireBehaviorDropBehavior : MonoBehaviour, IDragBehavior
 
     public void OnStartDragAction()
     {
-
+        print("On start drag action");
     }
 
     public void OnSuccessDropAction(GameObject slot)
@@ -28,18 +28,20 @@ public class WireBehaviorDropBehavior : MonoBehaviour, IDragBehavior
 
     public void OnEndDragAction(GameObject slot)
     {
+        print("On end drag action");
+
         if (slot != null)
         {
             Color slotColor = slot.GetComponent<Image>().color;
             if (wireColor == slotColor)
             {
-                Debug.Log("Color Matched!");
+                print("Color matched");
                 GetComponent<DragDrop>().enabled = false;
                 this.transform.parent.GetComponent<MatchingGame>().WireMatched();
             }
             else
             {
-                Debug.Log("Color Did Not Match");
+                print("wrong color");
                 GetComponent<DragDrop>().ReturnToLastPosition();
             }
         }
