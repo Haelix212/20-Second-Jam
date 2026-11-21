@@ -5,6 +5,7 @@ using System.Diagnostics.Tracing;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 using static System.Reflection.Metadata.BlobBuilder;
 
 public class DirectionalLock : MonoBehaviour
@@ -38,6 +39,11 @@ public class DirectionalLock : MonoBehaviour
     private List<KeyCode> puzzleAnswer = new List<KeyCode>();
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
+    {
+        StartPuzzle();
+    }
+
+    public void StartPuzzle()
     {
         UpAction = InputSystem.actions.FindAction("Up");
         DownAction = InputSystem.actions.FindAction("Down");

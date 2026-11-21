@@ -18,6 +18,12 @@ public class MathGame : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        StartPuzzle();
+    }
+
+
+    public void StartPuzzle()
+    {
         playerInput = "";
         equationsCompleted = 0;
         GenerateEquation();

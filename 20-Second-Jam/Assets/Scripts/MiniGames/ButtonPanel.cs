@@ -21,7 +21,12 @@ public class ButtonPanel : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        Buttons = new GameObject[numberOfRows*numberOfColumns];
+        StartPuzzle();
+    }
+
+    public void StartPuzzle()
+    {
+        Buttons = new GameObject[numberOfRows * numberOfColumns];
         SetPanelSize();
         CreateButtons();
         PickButtons();

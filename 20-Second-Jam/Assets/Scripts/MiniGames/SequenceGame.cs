@@ -21,6 +21,11 @@ public class SequenceGame : MonoBehaviour
 
     void Start()
     {
+        StartPuzzle();
+    }
+
+    public void StartPuzzle()
+    {
         spawnOffset = new Vector3(buttonPrefab.GetComponent<RectTransform>().rect.width, 0, 0);
         secondRowOffset = new Vector3(0, -buttonPrefab.GetComponent<RectTransform>().rect.height, 0);
         buttons = new GameObject[sequenceLength];
