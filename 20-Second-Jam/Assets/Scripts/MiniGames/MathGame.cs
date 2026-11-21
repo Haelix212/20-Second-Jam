@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MathGame : MonoBehaviour
+public class MathGame : PuzzleClass
 {
 
     public Text equationText;
@@ -18,11 +18,11 @@ public class MathGame : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        StartPuzzle();
+        // StartPuzzle();
     }
 
 
-    public void StartPuzzle()
+    public override void StartPuzzle()
     {
         playerInput = "";
         equationsCompleted = 0;
@@ -155,7 +155,7 @@ public class MathGame : MonoBehaviour
     {
         if (equationsCompleted >= NumberOfEquations)
         {
-            equationText.text = "WINNER";
+            equationText.text = "ACCEPTED";
             DisableButtons();
             //Stubbing in PuzzleManager call for puzzle complete.
             PuzzleManager.Instance.SetPuzzleCompleted("MathGame");

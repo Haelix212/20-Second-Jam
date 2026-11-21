@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PeskyButton : MonoBehaviour
+public class PeskyButton : PuzzleClass
 {
     [Header("Timer Variables")]
     public float timeIntervalMin;
@@ -27,6 +27,11 @@ public class PeskyButton : MonoBehaviour
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
+    {
+        // StartPuzzle();
+    }
+
+    public override void StartPuzzle()
     {
         // Disables button on intialization. Sets the time interval and begins the timer.
         buttonComponent.interactable = false;

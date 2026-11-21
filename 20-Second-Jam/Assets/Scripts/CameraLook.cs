@@ -68,7 +68,7 @@ public class CameraLook : MonoBehaviour
             cameraVectorY += mouseX;
             cameraVectorX -= (mouseY * cameraInvert);
 
-            cameraVectorX = Mathf.Clamp(cameraVectorX, -90f, 90f);
+            cameraVectorX = Mathf.Clamp(cameraVectorX, -80f, 60f);
             cameraVectorY = Mathf.Clamp(cameraVectorY, -115f, 115f);
 
             transform.localRotation = Quaternion.Euler(cameraVectorX, cameraVectorY, 0f);

@@ -3,7 +3,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 
-public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndDragHandler, IDragHandler, IPointerUpHandler, IUpdateSelectedHandler
+public class DragDrop : PuzzleClass, IPointerDownHandler, IBeginDragHandler, IEndDragHandler, IDragHandler, IPointerUpHandler, IUpdateSelectedHandler
 {
     private RectTransform rectTransform;
     private CanvasGroup canvasGroup;
@@ -32,6 +32,11 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
 
     private void Awake()
     {
+        // StartPuzzle();
+    }
+
+    public override void StartPuzzle()
+    {
         rectTransform = GetComponent<RectTransform>();
         canvasGroup = GetComponent<CanvasGroup>();
         canvas = GetComponentInParent<Canvas>();
@@ -42,6 +47,7 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
         slot = null;
         currentObject = this.gameObject;
     }
+
 
     public void OnPointerDown(PointerEventData eventData)
     {

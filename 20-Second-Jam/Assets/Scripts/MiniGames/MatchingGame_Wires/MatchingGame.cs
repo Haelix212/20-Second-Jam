@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Identifiers;
 using UnityEngine.UI;
 
-public class MatchingGame : MonoBehaviour
+public class MatchingGame : PuzzleClass
 {
 
     public int NumberOfPairs;
@@ -24,7 +24,11 @@ public class MatchingGame : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-   
+        // StartPuzzle();
+    }
+
+    public override void StartPuzzle()
+    {
         //Declares array lengths
         Slots = new GameObject[NumberOfPairs];
         Plugs = new GameObject[NumberOfPairs];

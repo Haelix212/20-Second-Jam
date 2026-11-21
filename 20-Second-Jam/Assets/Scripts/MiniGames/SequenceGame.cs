@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 
-public class SequenceGame : MonoBehaviour
+public class SequenceGame : PuzzleClass
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
@@ -21,10 +21,10 @@ public class SequenceGame : MonoBehaviour
 
     void Start()
     {
-        StartPuzzle();
+        // StartPuzzle();
     }
 
-    public void StartPuzzle()
+    public override void StartPuzzle()
     {
         spawnOffset = new Vector3(buttonPrefab.GetComponent<RectTransform>().rect.width, 0, 0);
         secondRowOffset = new Vector3(0, -buttonPrefab.GetComponent<RectTransform>().rect.height, 0);

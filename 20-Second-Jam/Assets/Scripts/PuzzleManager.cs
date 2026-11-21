@@ -39,6 +39,10 @@ public class PuzzleManager : MonoBehaviour
             GameObject puzzleToActivate = allPuzzles[randomIndex];
             activePuzzles.Add(puzzleToActivate);
             puzzleToActivate.SetActive(true);
+
+            puzzleToActivate.transform.Find("PuzzleLight").GetComponentInChildren<Animation>().Play();
+
+            puzzleToActivate.GetComponentInChildren<PuzzleClass>().StartPuzzle();
         }
         InitializeProgressLights();
     }
@@ -98,7 +102,12 @@ public class PuzzleManager : MonoBehaviour
             {
                 completedPuzzles++;
 
-                puzzle.SetActive(false);
+                // puzzle.SetActive(false);
+
+                Transform light = puzzle.transform.Find("PuzzleLight");
+                light.GetComponentInChildren<Animation>().Stop();
+                light.GetComponentInChildren<Light>().color = Color.green;
+                light.GetComponentInChildren<Light>().intensity = 1f;
 
                 UpdateProgressLights();
 

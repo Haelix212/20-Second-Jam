@@ -2,7 +2,7 @@ using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ButtonPanel : MonoBehaviour
+public class ButtonPanel : PuzzleClass
 {
 
     public GameObject buttonPrefab;
@@ -21,10 +21,10 @@ public class ButtonPanel : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        StartPuzzle();
+        // StartPuzzle();
     }
 
-    public void StartPuzzle()
+    public override void StartPuzzle()
     {
         Buttons = new GameObject[numberOfRows * numberOfColumns];
         SetPanelSize();

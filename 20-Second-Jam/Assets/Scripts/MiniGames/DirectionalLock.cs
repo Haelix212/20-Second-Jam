@@ -8,7 +8,7 @@ using UnityEngine.UI;
 using UnityEngine.UIElements;
 using static System.Reflection.Metadata.BlobBuilder;
 
-public class DirectionalLock : MonoBehaviour
+public class DirectionalLock : PuzzleClass
 {
 
     private int puzzleCount = 0;
@@ -40,10 +40,10 @@ public class DirectionalLock : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        StartPuzzle();
+        // StartPuzzle();
     }
 
-    public void StartPuzzle()
+    public override void StartPuzzle()
     {
         UpAction = InputSystem.actions.FindAction("Up");
         DownAction = InputSystem.actions.FindAction("Down");
