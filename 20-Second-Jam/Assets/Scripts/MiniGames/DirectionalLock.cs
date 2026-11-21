@@ -21,6 +21,7 @@ public class DirectionalLock : MonoBehaviour
     [Header("Puzzle Variables")]
     public int puzzleLength;
     public int puzzleLengthIncrement;
+    public float lockOutTimer;
     private int puzzleIndex = 0;
 
 
@@ -29,7 +30,6 @@ public class DirectionalLock : MonoBehaviour
     public Texture[] puzzleMaterials;
 
     private List<GameObject> puzzleImages = new List<GameObject>();
-    private Vector3 spawnPosition;
     private Vector3 spawnOffset;
 
     private bool puzzleActive = false;
@@ -44,7 +44,6 @@ public class DirectionalLock : MonoBehaviour
         LeftAction = InputSystem.actions.FindAction("Left");
         RightAction = InputSystem.actions.FindAction("Right");
 
-        spawnPosition = new Vector3(directionalLockPrefab.GetComponent<RectTransform>().rect.width, 0, 0);
         spawnOffset = new Vector3(directionalLockPrefab.GetComponent<RectTransform>().rect.width, 0, 0);
 
         GeneratePuzzle();
@@ -135,7 +134,7 @@ public class DirectionalLock : MonoBehaviour
     //Waits for 1 seconds before generating a new puzzle. Provides a lockout period for player.
     private IEnumerator WaitAndGeneratePuzzle()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(lockOutTimer);
         GeneratePuzzle();
     }
 

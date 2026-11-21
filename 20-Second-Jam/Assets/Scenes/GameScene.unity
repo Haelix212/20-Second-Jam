@@ -3928,6 +3928,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: DirectionalLockCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 6672960566014811883, guid: 7d8757c269806d04caa2236be12f17e7, type: 3}
+      propertyPath: lockOutTimer
+      value: 0.25
+      objectReference: {fileID: 0}
     - target: {fileID: 7258862391966336079, guid: 7d8757c269806d04caa2236be12f17e7, type: 3}
       propertyPath: m_Camera
       value: 
