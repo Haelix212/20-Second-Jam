@@ -28,7 +28,6 @@ public class DirectionalLock : PuzzleClass
 
     [Header("Puzzle UI")]
     public GameObject directionalLockPrefab;
-    public Texture[] puzzleMaterials;
 
     private List<GameObject> puzzleImages = new List<GameObject>();
     private Vector3 spawnOffset;
@@ -167,20 +166,18 @@ public class DirectionalLock : PuzzleClass
         // First Spawnoffset is the spawn postion then adds a the additional offsets needed for i.
         rectTransform.anchoredPosition = spawnOffset + spawnOffset * i;
 
-        //Using key input to determine which image should be applied
+        // Using key input to determine which way image should be rotated
+        // Arrows are down by default so no case for DownArrow
         switch (input)
         {
             case KeyCode.UpArrow:
-                puzzleImages[i].GetComponent<RawImage>().texture = puzzleMaterials[0];
-                break;
-            case KeyCode.DownArrow:
-                puzzleImages[i].GetComponent<RawImage>().texture = puzzleMaterials[1];
+                puzzleImages[i].transform.Rotate(0, 0, 180);
                 break;
             case KeyCode.LeftArrow:
-                puzzleImages[i].GetComponent<RawImage>().texture = puzzleMaterials[2];
+                puzzleImages[i].transform.Rotate(0, 0, 270);
                 break;
             case KeyCode.RightArrow:
-                puzzleImages[i].GetComponent<RawImage>().texture = puzzleMaterials[3];
+                puzzleImages[i].transform.Rotate(0, 0, 90);
                 break;
         }
     }
