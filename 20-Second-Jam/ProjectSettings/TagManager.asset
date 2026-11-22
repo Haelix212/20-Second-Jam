@@ -4,8 +4,10 @@
 TagManager:
   serializedVersion: 3
   tags:
-  - Slot
-  - Plug
+  - Red
+  - Green
+  - Blue
+  - Yellow
   layers:
   - Default
   - TransparentFX

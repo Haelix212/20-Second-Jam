@@ -12,7 +12,7 @@ public class DragDrop : PuzzleClass, IPointerDownHandler, IBeginDragHandler, IEn
     private IDragBehavior specialBehavior;
 
 
-    private Vector3 originalPosition;
+    public Vector3 originalPosition;
     private Vector3 lastPosition;
 
 
@@ -32,7 +32,7 @@ public class DragDrop : PuzzleClass, IPointerDownHandler, IBeginDragHandler, IEn
 
     private void Awake()
     {
-        // StartPuzzle();
+        //StartPuzzle();
     }
 
     public override void StartPuzzle()
