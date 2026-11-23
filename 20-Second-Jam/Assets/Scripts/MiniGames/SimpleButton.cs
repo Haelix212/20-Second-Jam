@@ -5,6 +5,9 @@ public class SimpleButton : PuzzleClass
 {
     [Header("Set this to a unique int when hooking up to PuzzleManager.cs")]
     [SerializeField] int SimpleButtonNumber = -1;
+    [SerializeField] string PuzzleType = "Button";
+
+    private Animation animation;
 
     private Button button;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -16,6 +19,7 @@ public class SimpleButton : PuzzleClass
     public override void StartPuzzle()
     {
         button = this.GetComponent<Button>();
+        animation = this.gameObject.GetComponentInChildren<Animation>();
         button.interactable = true;
     }
 
@@ -27,7 +31,8 @@ public class SimpleButton : PuzzleClass
 
     public void ButtonClicked()
     {
-        PuzzleManager.Instance.SetPuzzleCompleted("SimpleButton" + SimpleButtonNumber);
+        PuzzleManager.Instance.SetPuzzleCompleted("Simple" + PuzzleType + SimpleButtonNumber);
+        if (animation != null) animation.Play();
         button.interactable = false;
     }
 }

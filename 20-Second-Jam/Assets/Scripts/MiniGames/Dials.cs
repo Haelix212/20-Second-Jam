@@ -3,16 +3,13 @@ using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
 
-public class Dials : MonoBehaviour
+public class Dials : PuzzleClass
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     public GameObject dial;
     public string dialAnswer;
     public TMP_Text dialText;
     public List<string> directions = new List<string> { "Left", "Right", "Down" };
     [SerializeField] private Dictionary<string, GameObject> lights;
-
-
 
 
     void SetAnswers()
@@ -27,14 +24,14 @@ public class Dials : MonoBehaviour
         return directions[randomIndex];
     }
 
-
-    void Start()
+    public override void StartPuzzle()
     {
         SetAnswers();
     }
 
-    // Update is called once per frame
-    void Update()
+    void Start()
     {
+        // SetAnswers();
     }
+
 }
