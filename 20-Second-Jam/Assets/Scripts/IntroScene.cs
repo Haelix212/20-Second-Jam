@@ -60,11 +60,11 @@ public class IntroScene : MonoBehaviour
         // Show Orbit exterior
         SetCharacterName(nameText, control);
         ClearDialogue(dialogueText);
-        yield return TypeDialogue(dialogueText, "We're approaching the target system now.", "ShipPC1.1");
+        yield return TypeDialogue(dialogueText, "We're approaching the target system now.", "ATSN");
         yield return WaitForPlayerInput();
         ClearDialogue(dialogueText);
 
-        yield return TypeDialogue(dialogueText, "Prepare for decceleration.", "ShipPC1.2");
+        yield return TypeDialogue(dialogueText, "Prepare for decceleration.", "PFD");
         yield return WaitForPlayerInput();
         ClearDialogue(dialogueText);
 
@@ -108,7 +108,7 @@ public class IntroScene : MonoBehaviour
         // Switch to first person camera inside the cockpit
         // Use a screen flash again, maybe different colour, to mask loading of cockpit group and unloading ship mesh
 
-        yield return TypeDialogue(dialogueText, "Prepare for an emergency jump.", "ShipPC3.1");
+        yield return TypeDialogue(dialogueText, "Prepare for an emergency jump.", "PFEJ");
         yield return WaitForPlayerInput();
         ClearDialogue(dialogueText);
 
