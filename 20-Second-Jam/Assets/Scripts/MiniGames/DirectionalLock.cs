@@ -1,12 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.Tracing;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
-using UnityEngine.UIElements;
-using static System.Reflection.Metadata.BlobBuilder;
 
 public class DirectionalLock : PuzzleClass
 {
@@ -31,6 +28,7 @@ public class DirectionalLock : PuzzleClass
 
     private List<GameObject> puzzleImages = new List<GameObject>();
     private Vector3 spawnOffset;
+    private AudioSource computerSound;
 
     private bool puzzleActive = false;
 
@@ -50,6 +48,8 @@ public class DirectionalLock : PuzzleClass
         RightAction = InputSystem.actions.FindAction("Right");
 
         spawnOffset = new Vector3(directionalLockPrefab.GetComponent<RectTransform>().rect.width, 0, 0);
+
+        computerSound = this.gameObject.GetComponent<AudioSource>();
 
         GeneratePuzzle();
     }
@@ -106,6 +106,14 @@ public class DirectionalLock : PuzzleClass
             {
                 puzzleImages[puzzleIndex].GetComponent<RawImage>().color = Color.green;
                 puzzleIndex++;
+
+                if (computerSound != null)
+                {
+                    float pitch = UnityEngine.Random.Range(0.8f, 1.2f);
+                    computerSound.pitch = computerSound.pitch * pitch;
+                    computerSound.PlayOneShot(computerSound.clip);
+                    computerSound.pitch = 1.0f; // Return it to standard value
+                }
 
                 if (puzzleIndex == puzzleAnswer.Count)
                 {

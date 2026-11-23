@@ -20,6 +20,7 @@ public class PuzzleManager : MonoBehaviour
     private int easyCount;
     private List<Renderer> progressLights = new List<Renderer>();
     List<GameObject> puzzlesToActivate = new List<GameObject>();
+    private AudioSource puzzleCompleteSound;
 
 
     void Start()
@@ -44,6 +45,7 @@ public class PuzzleManager : MonoBehaviour
             
         }
         
+        puzzleCompleteSound = this.gameObject.GetComponent<AudioSource>();
         InitializeProgressLights();
     }
 
@@ -124,6 +126,7 @@ public class PuzzleManager : MonoBehaviour
                 light.GetComponentInChildren<Light>().intensity = 1f;
 
                 UpdateProgressLights();
+                if (puzzleCompleteSound != null) puzzleCompleteSound.PlayOneShot(puzzleCompleteSound.clip);
 
                 CheckWinCondition();
             }

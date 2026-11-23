@@ -18,6 +18,8 @@ public class ButtonPanel : PuzzleClass
     private float xSpawnOffset;
     private float ySpawnOffset;
 
+    private AudioSource buttonSound;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -27,6 +29,7 @@ public class ButtonPanel : PuzzleClass
     public override void StartPuzzle()
     {
         Buttons = new GameObject[numberOfRows * numberOfColumns];
+        buttonSound = this.gameObject.GetComponent<AudioSource>();
         SetPanelSize();
         CreateButtons();
         PickButtons();
@@ -113,6 +116,7 @@ public class ButtonPanel : PuzzleClass
             pickedButton.onClick.RemoveAllListeners();
             pickedButton.onClick.AddListener(delegate { ButtonPressed(pickedButton.transform.GetComponentInChildren<Light>()); } );
             pickedButton.onClick.AddListener(delegate { pickedButton.interactable = false; } );
+            if (buttonSound != null) pickedButton.onClick.AddListener(delegate { buttonSound.PlayOneShot(buttonSound.clip); });
             pickedButton.interactable = true;
 
             ActiveButtons++;

@@ -6,9 +6,9 @@ public class NewWires : PuzzleClass
 {
     public GameObject[] wires;
     public GameObject[] slots;
-    public GameObject LongWire;
 
     private int matchedPairs;
+    private AudioSource wireSound;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -17,6 +17,7 @@ public class NewWires : PuzzleClass
 
     public override void StartPuzzle()
     {
+        wireSound = this.gameObject.GetComponent<AudioSource>();
         foreach (GameObject wire in wires)
         {
             wire.GetComponent<DragDrop>().StartPuzzle();
@@ -57,6 +58,7 @@ public class NewWires : PuzzleClass
     public void WireMatched()
     {
         matchedPairs++;
+        if (wireSound != null) wireSound.PlayOneShot(wireSound.clip);
         if (matchedPairs >= wires.Length)
         {
             Debug.Log("All wires matched!");

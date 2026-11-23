@@ -12,6 +12,8 @@ public class SequenceGame : PuzzleClass
     public int sequenceLength;
     public GameObject buttonPrefab;
     public float lockOutTimer;
+    public AudioSource keyClick;
+    public AudioSource failSound;
 
     private GameObject[] buttons;
     private int sequenceIndex;
@@ -100,6 +102,7 @@ public class SequenceGame : PuzzleClass
         {
             if (buttonText.text == sequenceIndex.ToString())
             {
+                if (keyClick != null) keyClick.PlayOneShot(keyClick.clip);
                 clickedButton.GetComponent<UnityEngine.UI.Button>().interactable = false;
                 clickedButton.GetComponentInChildren<Text>().color = Color.green;
                 sequenceIndex++;
@@ -107,6 +110,7 @@ public class SequenceGame : PuzzleClass
             }
             else
             {
+                if (failSound != null) failSound.Play();
                 clickedButton.GetComponentInChildren<Text>().color = Color.red;
                 foreach(GameObject button in buttons)
                 {

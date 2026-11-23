@@ -8,6 +8,7 @@ public class SimpleButton : PuzzleClass
     [SerializeField] string PuzzleType = "Button";
 
     private Animation animation;
+    private AudioSource soundEffect;
 
     private Button button;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -20,6 +21,7 @@ public class SimpleButton : PuzzleClass
     {
         button = this.GetComponent<Button>();
         animation = this.gameObject.GetComponentInChildren<Animation>();
+        soundEffect = this.gameObject.GetComponentInChildren<AudioSource>();
         button.interactable = true;
     }
 
@@ -33,6 +35,7 @@ public class SimpleButton : PuzzleClass
     {
         PuzzleManager.Instance.SetPuzzleCompleted("Simple" + PuzzleType + SimpleButtonNumber);
         if (animation != null) animation.Play();
+        if(soundEffect != null) soundEffect.PlayOneShot(soundEffect.clip);
         button.interactable = false;
     }
 }
