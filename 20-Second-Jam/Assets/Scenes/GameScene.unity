@@ -1213,6 +1213,21 @@ MonoBehaviour:
   - {fileID: 968194476}
   - {fileID: 502854468}
   - {fileID: 341822355}
+  easyPuzzles:
+  - {fileID: 5408197191902468730}
+  - {fileID: 425303850}
+  - {fileID: 4753882}
+  - {fileID: 875243449}
+  - {fileID: 1844044935}
+  - {fileID: 2046755883}
+  - {fileID: 968194476}
+  - {fileID: 502854468}
+  hardPuzzles:
+  - {fileID: 1928980308}
+  - {fileID: 971552676}
+  - {fileID: 738564608}
+  - {fileID: 632913590}
+  - {fileID: 341822355}
   puzzleDictionary:
   - key: Puzzle1
     value: {fileID: 5408197191902468730}

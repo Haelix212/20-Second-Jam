@@ -6,6 +6,8 @@ public class PuzzleManager : MonoBehaviour
     public static PuzzleManager Instance { get; private set; }
 
     [SerializeField] private List<GameObject> allPuzzles; // List of all puzzles in the game
+    [SerializeField] private List<GameObject> easyPuzzles;
+    [SerializeField] private List<GameObject> hardPuzzles;
     [SerializeField] private Dictionary<string, GameObject> puzzleDictionary; // Dictionary to map puzzle names to their game objects
     [SerializeField] private int numberOfPuzzlesToActivate = 2; // Number of puzzles to activate at the start of the game
     [SerializeField] private List<GameObject> activePuzzles; // List of currently active puzzles
@@ -14,7 +16,10 @@ public class PuzzleManager : MonoBehaviour
     [SerializeField] private Material red;
     [SerializeField] private Material green;
     private int completedPuzzles = 0;
+    private int hardCount;
+    private int easyCount;
     private List<Renderer> progressLights = new List<Renderer>();
+    List<GameObject> puzzlesToActivate = new List<GameObject>();
 
 
     void Start()
@@ -25,26 +30,35 @@ public class PuzzleManager : MonoBehaviour
             return;
         }
         Instance = this;
-        // Initialize the list of active puzzles
-        activePuzzles = new List<GameObject>();
+        hardCount = numberOfPuzzlesToActivate /2;
+        easyCount = numberOfPuzzlesToActivate - hardCount;
         // Randomly select puzzles to activate
-        for (int i = 0; i < numberOfPuzzlesToActivate; i++)
+        GetRandomPuzzles(hardPuzzles, hardCount);
+        GetRandomPuzzles(easyPuzzles, easyCount);
+        foreach (GameObject puzzle in puzzlesToActivate)
         {
-            int randomIndex = Random.Range(0, allPuzzles.Count);
-            if (activePuzzles.Contains(allPuzzles[randomIndex]))
-            {
-                i--;
-                continue;
-            }
-            GameObject puzzleToActivate = allPuzzles[randomIndex];
-            activePuzzles.Add(puzzleToActivate);
-            puzzleToActivate.SetActive(true);
-
-            puzzleToActivate.transform.Find("PuzzleLight").GetComponentInChildren<Animation>().Play();
-
-            puzzleToActivate.GetComponentInChildren<PuzzleClass>().StartPuzzle();
+            activePuzzles.Add(puzzle);
+            puzzle.SetActive(true);
+            puzzle.transform.Find("PuzzleLight").GetComponentInChildren<Animation>().Play();
+            puzzle.GetComponentInChildren<PuzzleClass>().StartPuzzle();
+            InitializeProgressLights();
         }
-        InitializeProgressLights();
+        
+
+    }
+
+    private void GetRandomPuzzles(List<GameObject> source, int puzzleCount)
+    {
+        for (int i = 0; i < puzzleCount; i++)
+            {
+                int randomIndex = Random.Range(0, source.Count);
+                if (puzzlesToActivate.Contains(source[randomIndex]))
+                {
+                    i--;
+                    continue;
+                }
+                puzzlesToActivate.Add(source[randomIndex]);
+            }
     }
     void InitializeProgressLights()
     {
