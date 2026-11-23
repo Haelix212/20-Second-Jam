@@ -41,10 +41,10 @@ public class PuzzleManager : MonoBehaviour
             puzzle.SetActive(true);
             puzzle.transform.Find("PuzzleLight").GetComponentInChildren<Animation>().Play();
             puzzle.GetComponentInChildren<PuzzleClass>().StartPuzzle();
-            InitializeProgressLights();
+            
         }
         
-
+        InitializeProgressLights();
     }
 
     private void GetRandomPuzzles(List<GameObject> source, int puzzleCount)
