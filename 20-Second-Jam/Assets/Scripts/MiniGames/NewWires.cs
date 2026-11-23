@@ -6,6 +6,7 @@ public class NewWires : PuzzleClass
 {
     public GameObject[] wires;
     public GameObject[] slots;
+    public GameObject LongWire;
 
     private int matchedPairs;
     // Start is called once before the first execution of Update after the MonoBehaviour is created

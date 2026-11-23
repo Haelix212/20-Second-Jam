@@ -76,7 +76,7 @@ public class CameraLook : MonoBehaviour
         else
         {
             Vector3 windowDirection = new Vector3(0f, 0.4f, 1f);
-            Debug.DrawRay(transform.position, windowDirection, Color.red);
+            // Debug.DrawRay(transform.position, windowDirection, Color.red);
             Vector3 newDirection = Vector3.RotateTowards(transform.forward, windowDirection, 1f * Time.deltaTime, 0f);
             transform.rotation = Quaternion.LookRotation(newDirection);
         }
