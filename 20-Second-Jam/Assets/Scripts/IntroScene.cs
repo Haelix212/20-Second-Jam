@@ -60,23 +60,23 @@ public class IntroScene : MonoBehaviour
         // Show Orbit exterior
         SetCharacterName(nameText, control);
         ClearDialogue(dialogueText);
-        yield return TypeDialogue(dialogueText, "We're approaching the target system now.", "ShipPC1");
+        yield return TypeDialogue(dialogueText, "We're approaching the target system now.", "ShipPC1.1");
         yield return WaitForPlayerInput();
         ClearDialogue(dialogueText);
 
-        yield return TypeDialogue(dialogueText, "Prepare for decceleration.");
+        yield return TypeDialogue(dialogueText, "Prepare for decceleration.", "ShipPC1.2");
         yield return WaitForPlayerInput();
         ClearDialogue(dialogueText);
 
 
         SetCharacterName(nameText, shipAI);
-        yield return TypeDialogue(dialogueText, "WARNING, EXPERIENCING UNEXPECTED GRAVITATIONAL FORCES");
+        yield return TypeDialogue(dialogueText, "WARNING, EXPERIENCING UNEXPECTED GRAVITATIONAL FORCES", "Core1");
         yield return WaitForPlayerInput();
         ClearDialogue(dialogueText);
         
 
         yield return new WaitForSeconds(0.5f);
-        yield return TypeDialogue(dialogueText, "Exiting Interstellar Warp.");
+        yield return TypeDialogue(dialogueText, "Exiting Interstellar Warp.", "ShipPC2");
         yield return WaitForPlayerInput();
         ClearDialogue(dialogueText);
         canvas.SetActive(false);     
@@ -96,24 +96,24 @@ public class IntroScene : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         SetCharacterName(nameText, control);
-        yield return TypeDialogue(dialogueText, "WARNING, EXTREME HEAT EXPOSURE IMMINENT");
+        yield return TypeDialogue(dialogueText, "WARNING, EXTREME HEAT EXPOSURE IMMINENT", "Core2");
         yield return WaitForPlayerInput();
         ClearDialogue(dialogueText);
 
         SetCharacterName(nameText, shipAI);
-        yield return TypeDialogue(dialogueText, "That is distinctly not our destination. We need to leave immediately.");
+        yield return TypeDialogue(dialogueText, "That is distinctly not our destination. We need to leave immediately.", "ShipPC3");
         yield return WaitForPlayerInput();
         ClearDialogue(dialogueText);
 
         // Switch to first person camera inside the cockpit
         // Use a screen flash again, maybe different colour, to mask loading of cockpit group and unloading ship mesh
 
-        yield return TypeDialogue(dialogueText, "Prepare for an emergency jump.");
+        yield return TypeDialogue(dialogueText, "Prepare for an emergency jump.", "ShipPC3.1");
         yield return WaitForPlayerInput();
         ClearDialogue(dialogueText);
 
         SetCharacterName(nameText, control);
-        yield return TypeDialogue(dialogueText, "T-MINUS 20 SECONDS UNTIL IRRECOVERABLE SYSTEM DAMAGE");
+        yield return TypeDialogue(dialogueText, "T-MINUS 20 SECONDS UNTIL IRRECOVERABLE SYSTEM DAMAGE", "Core3");
         yield return WaitForPlayerInput();
         yield return new WaitForSeconds(0.5f);
         dialogueText.gameObject.SetActive(false);
