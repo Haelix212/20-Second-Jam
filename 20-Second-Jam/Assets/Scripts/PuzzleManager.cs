@@ -31,7 +31,7 @@ public class PuzzleManager : MonoBehaviour
             return;
         }
         Instance = this;
-        hardCount = numberOfPuzzlesToActivate /3;
+        hardCount = 2;
         easyCount = numberOfPuzzlesToActivate - hardCount;
         // Randomly select puzzles to activate
         GetRandomPuzzles(hardPuzzles, hardCount);

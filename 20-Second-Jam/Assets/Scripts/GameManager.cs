@@ -74,6 +74,11 @@ public class GameManager : MonoBehaviour
         //Debug.Log(Mathf.Round(timeRemaining) + " seconds remaining");
         
     }
+    public void SkipIntro()
+    {
+        introPlayed = true;
+        StartGame();
+    }
     public void StartGame()
     {
         // Load the game scene, rn is my test scene
