@@ -28,6 +28,9 @@ public class IntroScene : MonoBehaviour
     public Camera warpCamera;
     public float typeSpeed = 0.05f;
     public bool autoPlay = false;
+    [Header("Dialogue Audio")]
+    public AudioSource dialogueAudioSource;
+    
     
 
     private void Start()
@@ -57,7 +60,7 @@ public class IntroScene : MonoBehaviour
         // Show Orbit exterior
         SetCharacterName(nameText, control);
         ClearDialogue(dialogueText);
-        yield return TypeDialogue(dialogueText, "We're approaching the target system now.");
+        yield return TypeDialogue(dialogueText, "We're approaching the target system now.", "ShipPC1");
         yield return WaitForPlayerInput();
         ClearDialogue(dialogueText);
 
@@ -200,12 +203,42 @@ public class IntroScene : MonoBehaviour
         nameText.text = characterName;
     }
 
-    IEnumerator TypeDialogue(TMP_Text textObject, string text)
+    IEnumerator TypeDialogue(TMP_Text textObject, string text, string audioFileName = null)
     {
+        textObject.text = "";
+
+        if (!string.IsNullOrEmpty(audioFileName))
+        {
+            AudioClip clip = Resources.Load<AudioClip>(
+                "AudioFiles/" + audioFileName
+            );
+
+            if (clip != null && dialogueAudioSource != null)
+            {
+                dialogueAudioSource.Stop();
+                dialogueAudioSource.clip = clip;
+                dialogueAudioSource.Play();
+            }
+            else if (clip == null)
+            {
+                Debug.LogWarning("This was not found: " + audioFileName);
+            }
+        }
+
         foreach (char c in text)
         {
             textObject.text += c;
             yield return new WaitForSeconds(typeSpeed);
+        }
+
+        // Wait until audio finishes
+        if (dialogueAudioSource != null &&
+            dialogueAudioSource.isPlaying)
+        {
+            while (dialogueAudioSource.isPlaying)
+            {
+                yield return null;
+            }
         }
     }
 
