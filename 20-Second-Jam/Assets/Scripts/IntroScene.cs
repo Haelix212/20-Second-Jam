@@ -69,7 +69,7 @@ public class IntroScene : MonoBehaviour
         yield return WaitForPlayerInput();
         ClearDialogue(dialogueText);
 
-        yield return TypeDialogue(dialogueText, "Prepare for decceleration.", "PFD");
+        yield return TypeDialogue(dialogueText, "Prepare for deceleration.", "PFD");
         yield return WaitForPlayerInput();
         ClearDialogue(dialogueText);
 
@@ -102,10 +102,10 @@ public class IntroScene : MonoBehaviour
         yield return new WaitForSeconds(3.5f);
         // We see the sun for the first time and it is close
 
+        SetCharacterName(nameText, control);
         canvas.SetActive(true);
         yield return new WaitForSeconds(0.5f);
-
-        SetCharacterName(nameText, control);
+        
         yield return TypeDialogue(dialogueText, "WARNING, EXTREME HEAT EXPOSURE IMMINENT", "Core2");
         yield return WaitForPlayerInput();
         ClearDialogue(dialogueText);

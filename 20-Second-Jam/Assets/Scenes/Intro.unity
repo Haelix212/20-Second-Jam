@@ -3441,8 +3441,8 @@ MonoBehaviour:
   canvas: {fileID: 1592950430}
   exitWarpEvent: {fileID: 11400000, guid: 5c0f6840f56543f47a50fb2ba32ee62d, type: 2}
   engineLoop: {fileID: 521271097}
-  exitWarpEffect: {fileID: 0}
-  dramaSound: {fileID: 0}
+  exitWarpEffect: {fileID: 521271098}
+  dramaSound: {fileID: 521271099}
   failText: {fileID: 0}
   shipModel: {fileID: 0}
   starFlash: {fileID: 0}
