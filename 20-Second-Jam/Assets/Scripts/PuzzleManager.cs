@@ -121,7 +121,8 @@ public class PuzzleManager : MonoBehaviour
                 // puzzle.SetActive(false);
 
                 Transform light = puzzle.transform.Find("PuzzleLight");
-                light.GetComponentInChildren<Animation>().Stop();
+                Animation lightAnim = light.GetComponentInChildren<Animation>();
+                lightAnim.Stop();
                 light.GetComponentInChildren<Light>().color = Color.green;
                 light.GetComponentInChildren<Light>().intensity = 1f;
 
