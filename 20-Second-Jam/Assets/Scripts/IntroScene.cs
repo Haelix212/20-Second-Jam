@@ -21,13 +21,15 @@ public class IntroScene : MonoBehaviour
     [Header("Outro Variables")]
     public GameObject shipModel;
     public GameObject starFlash;
-    private GameObject flash;
+    public AudioSource engineCharge;
+    public AudioSource engineFire;
 
     [Header("General Variables")]
     public GameObject flashPanel;
     public Camera warpCamera;
     public float typeSpeed = 0.05f;
     public bool autoPlay = false;
+    public AudioSource typingSound;
     [Header("Dialogue Audio")]
     public AudioSource dialogueAudioSource;
     
@@ -137,9 +139,12 @@ public class IntroScene : MonoBehaviour
         // Ship movement and camera pan animations trigger on scene start
         ParticleSystem shockwave = shipModel.transform.Find("ShockwaveVFX").GetComponent<ParticleSystem>();
         GameObject engine = shipModel.transform.Find("EngineVFX").gameObject;
+        // yield return new WaitForSeconds(2.5f);
+        if (engineCharge != null) engineCharge.PlayOneShot(engineCharge.clip);
         yield return new WaitForSeconds(3.25f);
         if (engine != null) engine.SetActive(true);
         if (shockwave != null) shockwave.Play();
+        if (engineFire != null) engineFire.PlayOneShot(engineFire.clip);
 
         yield return new WaitForSeconds(0.5f);
         if (starFlash != null) starFlash.SetActive(true);
@@ -157,6 +162,12 @@ public class IntroScene : MonoBehaviour
         if (blackScreen != null) blackScreen.gameObject.SetActive(true);
     
         yield return new WaitForSeconds(5f);
+        Transform text = this.transform.Find("GameOverText");
+        if(typingSound != null) typingSound.Play();
+        if (text != null) yield return TypeDialogue(text.GetComponent<TMP_Text>(), "Thanks for playing! <3");
+
+        yield return new WaitForSeconds(0.5f);
+
         Transform again = this.transform.Find("PlayAgainButton");
         if (again != null) 
         {
@@ -165,6 +176,9 @@ public class IntroScene : MonoBehaviour
             againButton.onClick.AddListener(delegate { GameManager.Instance.RestartGame(); } );
             againButton.gameObject.SetActive(true);
         }
+        // yield return new WaitForSeconds(1f);
+        // if(typingSound != null && typingSound.isPlaying) typingSound.Stop();
+
         Transform quit = this.transform.Find("QuitButton");
         if (quit != null) 
         {
