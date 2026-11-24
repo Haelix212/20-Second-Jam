@@ -14,6 +14,9 @@ public class IntroScene : MonoBehaviour
     public TMP_Text nameText;
     public GameObject canvas;
     public ExitWarpEvent exitWarpEvent;
+    public AudioSource engineLoop;
+    public AudioSource exitWarpEffect;
+    public AudioSource dramaSound;
 
     [Header("Fail Variables")]
     public TMP_Text failText;
@@ -84,14 +87,19 @@ public class IntroScene : MonoBehaviour
         canvas.SetActive(false);     
 
         yield return new WaitForSeconds(0.5f);
+        if (engineLoop != null) engineLoop.Stop();
+        if (exitWarpEffect != null) exitWarpEffect.PlayOneShot(exitWarpEffect.clip);
 
         // Screen flashes to white before fading back in
         flashPanel.SetActive(true);
         yield return new WaitForSeconds(0.75f); // Delay to hide pop in of new objects
         canvas.SetActive(false);
         ExitWarp();
-        warpCamera.GetComponent<Animation>().Play(); // Move camera to see star better
-        yield return new WaitForSeconds(2.0f);
+        warpCamera.GetComponent<Animation>().Play(); // Move camera to see star better\
+        yield return new WaitForSeconds(0.5f);
+        if (dramaSound != null) dramaSound.PlayOneShot(dramaSound.clip);
+
+        yield return new WaitForSeconds(3.5f);
         // We see the sun for the first time and it is close
 
         canvas.SetActive(true);
